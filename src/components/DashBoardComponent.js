@@ -33,25 +33,23 @@ class DashBoardComponent extends React.Component{
 
     render(){
         return(
-            <div>
-                <span>DashBoard</span>
-                <div id="quests_container">
+                <div id="quests-container">
                     {
                         this.state.quests.map((quest)=>{
                             return(
+                                    <div class="quest">
                                 <Link to={`/quest/${quest.id}`} key={quest.id}>
                 <h3>{quest.name}</h3>
                 <p>{quest.description}</p>
                 <p>Step: {quest.step}</p>
-                <hr />
             </Link>
+                </div>
                             );
 
                         })
                     }
 
                 </div>
-            </div>
         )
     }
 }

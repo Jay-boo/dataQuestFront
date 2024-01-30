@@ -6,7 +6,7 @@ const QuestPage = () => {
   const { id } = useParams();
 
   return (
-    <div>
+    <div id="quest-container">
       <h1>Quest Page</h1>
       <p>Quest ID: {id}</p>
       <QuestionComponent/>
