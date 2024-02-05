@@ -1,6 +1,6 @@
 import './styles/App.css';
 import React, { useRef } from 'react';
-import {BrowserRouter,Route,Routes,useParams} from 'react-router-dom';
+import {BrowserRouter,Route,Routes} from 'react-router-dom';
 import Login from './pages/Login';
 import DashBoard from './pages/DashBoard';
 import QuestPage from './pages/QuestPage';

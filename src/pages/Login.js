@@ -1,86 +1,137 @@
-const React = require('react');
-const { useState, useEffect } = require('react');
-const { Link, useNavigate } = require("react-router-dom");
+import { Button  } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import '../styles/login.css';
+import React from 'react';
+import FastAPIClient from '../client';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import KeyIcon from '@mui/icons-material/Key';
+import InputAdornment from '@mui/material/InputAdornment';
+import styled from '@emotion/styled';
+import { Navigate } from 'react-router-dom';
+
 const jwtDecode = require("jwt-decode");
-
-
-const Login = () => {
-  const [error, setError] = useState({ username: "", password: "" });
-  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
-
-  const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//   const navigate = useNavigate();
-
-  const onLogin = (e) => {
-    // console.log(" on loging -------------------");
-    // console.log(isLoggedIn);
-    // e.preventDefault();
-    // setError(false);
-    // setLoading(true);
-
-    // if (loginForm.username.length <= 0) {
-    //   setLoading(false);
-    //   return setError({ username: "Please Enter username Address" });
-    // }
-    // if (loginForm.password.length <= 0) {
-    //   setLoading(false);
-    //   return setError({ password: "Please Enter Password" });
-    // }
-
-    // client.login(loginForm.username, loginForm.password)
-    //   .then(() => {
-    //     navigate('/');
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     setError(true);
-    //     console.log(err);
-    //     alert('Invalid credentials');
-    //   });
-    // setIsLoggedIn(true);
-  };
-
-  useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    console.log("In Login useEffect items", localStorage);
-    if (tokenString) {
-      console.log("Is valid");
-      const token = JSON.parse(tokenString);
-      const isAccessTokenValid =
-        JSON.stringify(token) !== JSON.stringify({ error: "invalid credentials" });
-      console.log("is Access", isAccessTokenValid);
-      if (isAccessTokenValid) {
-        const decodedAccessToken = jwtDecode(token.access_token);
-        setIsLoggedIn(true);
-      }
-    }
-  }, []);
-
-  const handleLogout = () => {
-    // client.logout();
-    setIsLoggedIn(false);
-    // navigate('/login');
-  };
-
-  const handleLogin = () => {
-    // navigate("/login");
-  };
-
-//   let displayButton;
-//   const buttonStyle = "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0";
-
-//   if (isLoggedIn) {
-//     displayButton = <button className={buttonStyle} onClick={() => handleLogout()}>Logout</button>;
-//   } else {
-//     displayButton = <button className={buttonStyle} onClick={() => handleLogin()}>Login</button>;
-//   }
-
-  return (
-    <div><span>Login Page</span> </div>
-  );
+const options = {
+  shouldForwardProp: (prop) => prop !== 'fontColor',
 };
+const StyledTextField = styled(
+  TextField,
+  options,
+)(({ fontColor }) => ({
+  input: {
+    color: fontColor,
+  },
+}));
+const client=new FastAPIClient();
+
+
+
+
+class Login extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+      loginForm:{'email':'','password':''},
+      isLoggedIn:false,
+    }
+  }
+
+  componentDidMount(){
+    console.log('componentDidMount');
+    const tokenString=localStorage.getItem("token");
+    if (tokenString){
+        const token=JSON.parse(tokenString);
+        console.log(JSON.stringify(token));
+        const isValid=JSON.stringify(token)!= JSON.stringify({error:"invalid credentials"});
+        console.log("Is token valid ?",isValid);
+        if (isValid){
+            this.setState({isLoggedIn:true})
+        }
+        }
+  }
+
+
+
+  handleInputChange=(field)=>(event)=>{
+    this.setState({
+      loginForm:{
+        ...this.state.loginForm,
+        [field]:event.target.value
+      }
+    })
+  }
+
+  onLogin=(e)=>{
+    console.log('login()');
+    client.login(this.state.loginForm.email,this.state.loginForm.password);
+    this.setState({isLoggedIn:true})
+  }
+  onLogout=(e)=>{
+    console.log('logout()');
+    client.logout();
+    this.setState({isLoggedIn:false})
+
+  }
+  
+
+  render(){
+    let login_form=<div id="login-form"></div>;
+    if (!this.state.isLoggedIn){
+          login_form=(
+          <div id="login-form">
+
+          <StyledTextField fontColor="#060522" id="outlined-basic" label="email" variant="outlined" 
+          onChange={this.handleInputChange('email')}
+          InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }} />
+          <StyledTextField fontColor="#060522" id="outlined-basic" label="Password" variant="outlined" type='password' 
+          onChange={this.handleInputChange('password')}
+          InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <KeyIcon></KeyIcon>
+                </InputAdornment>
+              ),}}
+          />
+            <Button variant="outlined" onClick={(e)=> this.onLogin(e)} > Submit </Button> 
+            or Create Account
+          </div>);
+
+    }else{
+        // console.log('get user info ');
+        // console.log(client.get_user_information());
+      // const firstname_user=client.fetchUser();
+      // console.log('EHE');
+      // console.log(firstname_user)
+      login_form=(
+      <div id="login-form"> 
+       {/* Welcome {firstname_user}  */}
+        <Button variant="outlined" onClick={(e)=> this.onLogout(e)} > Log out </Button> 
+      </div>);
+    }
+    
+
+
+
+
+
+    return(
+      <div id="login-container" >
+        <h2>Login Page</h2>
+          {login_form}
+        {this.state.isNavigateOnLogin&& <Navigate to="/" replace={true}></Navigate>}
+      </div>
+    )
+  }
+
+}
+// class Login extends React.Component{
+
 
 export default Login;
+
 
