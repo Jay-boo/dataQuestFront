@@ -3,8 +3,7 @@ import DashBoardComponent from "../components/DashBoardComponent"
 import Login from '../pages/Login';
 import '../styles/DashBoard.css';
 import FastAPIClient from "../client";
-import { isValidDateValue } from "@testing-library/user-event/dist/utils";
-import NotLoggedIn from "./NotLoggedIn";
+import { Navigate } from "react-router-dom";
 
 const client=new FastAPIClient();
 
@@ -18,7 +17,7 @@ class DashBoard extends React.Component{
 
     }
     componentDidMount(){
-        console.log('componentDidMount');
+        console.log('componentDidMount DashBoard');
         const tokenString=localStorage.getItem("token");
         if (tokenString){
             console.log("TOKEN FOUND VALID");
@@ -27,26 +26,28 @@ class DashBoard extends React.Component{
             const isValid=JSON.stringify(token)!= JSON.stringify({error:"invalid credentials"});
             console.log("Is token valid ?",isValid);
             if (isValid){
-                this.setState({isLoggedIn:true})
+                this.setState({ isLoggedIn: true }, () => {
+                    console.log("state",this.state);
+                });
             }
         }
-        console.log('TOKEN NOT FOUND');
+        console.log(this.state);
     }
 
 
 
 
     render(){
-        if (this.state.isLoggedIn){
+        if (!this.state.isLoggedIn){
+            return(<Login/>);
+            // return <Navigate to="/login"/>
+        }else{
         return(
             <div id="dashboard-container">
                 <h2>DashBoard</h2>
                 <DashBoardComponent/>
             </div>
         )
-        }
-        else{
-            return(<Login/>)
         }
     }
 }

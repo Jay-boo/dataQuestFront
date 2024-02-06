@@ -23,7 +23,7 @@ class FastAPIClient {
     delete this.apiClient.defaults.headers['Authorization'];
 
     // HACK: This is a hack for scenario where there is no login form
-    console.log("----------------LOGIN------------")
+    // console.log("----------------LOGIN------------")
     const form_data = new FormData();
     const grant_type = 'password';
     const item = { grant_type, username, password };
@@ -31,7 +31,7 @@ class FastAPIClient {
       form_data.append(key, item[key]);
     }
 
-    console.log("---------------- END LOGIN => fetch ------------")
+    // console.log("---------------- END LOGIN => fetch ------------")
     return this.apiClient
       .post('/token', form_data)
       .then((resp) => {
@@ -55,7 +55,7 @@ class FastAPIClient {
 
   fetchUser() {
 
-    console.log("----------------FETCH------------")
+    // console.log("----------------FETCH------------")
     return this.apiClient.get('/user/me').then(({ data }) => {
 
       localStorage.setItem('user', JSON.stringify(data));
@@ -71,16 +71,29 @@ class FastAPIClient {
 
 
 
-
-
-
-
   // Logging out is just deleting the jwt.
   logout() {
     // Add here any other data that needs to be deleted from local storage
     // on logout
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+  }
+
+
+
+  register(firstname,lastname,email,password){
+    const data={
+      "firstname":firstname,
+      "lastname":lastname,
+      "email":email,
+      "password":password
+    };
+    return this.apiClient.post("/user",data).then(
+      (resp)=>{
+        // console.log("resp :",resp.data);
+        return resp.data;
+      }
+    )
   }
 
 
@@ -97,15 +110,15 @@ class FastAPIClient {
     const initialConfig = {
       baseURL: `${config.apiBasePath}`,
     };
-    console.log(initialConfig)
+    // console.log(initialConfig)
 
-    console.log("-------------In get api fct-----------------------");
+    // console.log("-------------In get api fct-----------------------");
     const client = axios.create(initialConfig);
     // client.get("/").then((resp) => console.log(resp.data));
 
     client.interceptors.request.use(localStorageTokenInterceptor);
     // client.get("").then((resp) => console.log(resp));
-    console.log("exit get api fct")
+    // console.log("exit get api fct")
     return client;
   }
 }
@@ -113,7 +126,7 @@ class FastAPIClient {
 
 // every request is intercepted and has auth header injected.
 function localStorageTokenInterceptor(config) {
-  console.log("localStorageTokenInterceptor");
+  // console.log("localStorageTokenInterceptor");
   const headers = {};
   const tokenString = localStorage.getItem('token');
 

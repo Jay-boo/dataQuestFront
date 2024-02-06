@@ -3,11 +3,11 @@ import TextField from '@mui/material/TextField';
 import '../styles/login.css';
 import React from 'react';
 import FastAPIClient from '../client';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import styled from '@emotion/styled';
-import { Navigate } from 'react-router-dom';
+import { Link,} from 'react-router-dom';
 
 const jwtDecode = require("jwt-decode");
 const options = {
@@ -32,6 +32,7 @@ class Login extends React.Component{
     this.state={
       loginForm:{'email':'','password':''},
       isLoggedIn:false,
+      userInfo:{}
     }
   }
 
@@ -44,7 +45,13 @@ class Login extends React.Component{
         const isValid=JSON.stringify(token)!= JSON.stringify({error:"invalid credentials"});
         console.log("Is token valid ?",isValid);
         if (isValid){
-            this.setState({isLoggedIn:true})
+            this.setState({isLoggedIn:true});
+            client.get_user_information().then(
+              userInfo =>{
+                this.setState({userInfo:userInfo})
+              }
+            )
+            
         }
         }
   }
@@ -62,8 +69,25 @@ class Login extends React.Component{
 
   onLogin=(e)=>{
     console.log('login()');
-    client.login(this.state.loginForm.email,this.state.loginForm.password);
-    this.setState({isLoggedIn:true})
+    client.login(this.state.loginForm.email,this.state.loginForm.password).then(
+      userInfo=>{
+        console.log('User Info on Logging',userInfo);
+        this.setState({isLoggedIn:true,userInfo:userInfo});
+        window.location.href="/"
+      }
+    )
+    // client.login(this.state.loginForm.email,this.state.loginForm.password).then(
+    //   ()=>{
+    //     console.log('get user info');
+    //     return client.get_user_information();
+    //   })
+    //   .then(userInfo => {
+    //     console.log(userInfo);
+    //     this.setState({isLoggedIn:true,userInfo:userInfo});
+    //   })
+    //   .catch(error =>{
+    //     console.error('Error during login',error);
+    //   })
   }
   onLogout=(e)=>{
     console.log('logout()');
@@ -84,7 +108,7 @@ class Login extends React.Component{
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <AccountCircle />
+                <EmailIcon/>
                 </InputAdornment>
               ),
             }} />
@@ -98,38 +122,26 @@ class Login extends React.Component{
               ),}}
           />
             <Button variant="outlined" onClick={(e)=> this.onLogin(e)} > Submit </Button> 
-            or Create Account
+            or <Link to="/signup">Create Account</Link>
           </div>);
 
     }else{
-        // console.log('get user info ');
-        // console.log(client.get_user_information());
-      // const firstname_user=client.fetchUser();
-      // console.log('EHE');
-      // console.log(firstname_user)
       login_form=(
       <div id="login-form"> 
-       {/* Welcome {firstname_user}  */}
+       Welcome {this.state.userInfo.email} 
         <Button variant="outlined" onClick={(e)=> this.onLogout(e)} > Log out </Button> 
       </div>);
     }
-    
-
-
-
-
 
     return(
       <div id="login-container" >
         <h2>Login Page</h2>
           {login_form}
-        {this.state.isNavigateOnLogin&& <Navigate to="/" replace={true}></Navigate>}
       </div>
     )
   }
 
 }
-// class Login extends React.Component{
 
 
 export default Login;

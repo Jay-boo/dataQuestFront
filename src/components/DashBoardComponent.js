@@ -23,7 +23,7 @@ class DashBoardComponent extends React.Component{
 
 
     componentDidMount(){
-        console.log("get_quest");
+        // console.log("get_quest");
         this.setState({quests:[
             new Quest(0,"name 1","Im on ",3),
             new Quest(1,"name 2","Im on again ",4)
