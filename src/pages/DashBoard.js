@@ -14,8 +14,8 @@ class DashBoard extends React.Component{
             this.state={
                 isLoggedIn:false
             }
-
     }
+
     componentDidMount(){
         console.log('componentDidMount DashBoard');
         const tokenString=localStorage.getItem("token");

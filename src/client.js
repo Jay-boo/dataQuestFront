@@ -40,27 +40,22 @@ class FastAPIClient {
       });
   }
 
-  get_user_information(){
-    return this.apiClient.get('/user/me').then(
-      ({data})=> {return {"email":data.email};}
-    )
-  }
-
-
-
-
-
-
 
 
   fetchUser() {
-
-    // console.log("----------------FETCH------------")
     return this.apiClient.get('/user/me').then(({ data }) => {
 
       localStorage.setItem('user', JSON.stringify(data));
       return data;
     });
+  }
+
+  async getQuest(){
+    return this.apiClient.get("/quest").then(
+      ({data})=> {
+        console.log("getQuest()",data);
+        return data;}
+    )
   }
 
   async getCalendar() {
@@ -80,6 +75,11 @@ class FastAPIClient {
   }
 
 
+  get_user_information(){
+    return this.apiClient.get('/user/me').then(
+      ({data})=> {return {"email":data.email};}
+    )
+  }
 
   register(firstname,lastname,email,password){
     const data={
