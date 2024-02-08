@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x.x]
+        node-version: [21.x.x]
 
     steps:
     - name: Chckout repo
