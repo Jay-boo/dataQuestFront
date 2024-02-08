@@ -22,3 +22,4 @@ deploy:
   stage: deploy
   script:
     - echo "Deploying your React app"
+    - npm run build 
