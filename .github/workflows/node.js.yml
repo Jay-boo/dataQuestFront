@@ -16,8 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [9.2.0]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [24.x.x]
 
     steps:
     - name: Chckout repo
