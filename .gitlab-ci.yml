@@ -2,7 +2,6 @@ image: node:latest
 stages:
   - build
   - test
-  - deploy
 
 
 before_script:
@@ -18,8 +17,4 @@ test:
   script:
     - npm test
 
-deploy:
-  stage: deploy
-  script:
-    - echo "Deploying your React app"
-    - npm run build 
+
