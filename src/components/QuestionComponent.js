@@ -91,7 +91,14 @@ class QuestionComponent extends React.Component{
                       navigator.clipboard.writeText(text)
                         .catch((error) => console.error('Could not copy code: ', error));
                     };
+                    const language = className ? className.replace('language-', '') : 'plaintext';
+                    console.log("Language :",language);
               
+                    if (language=="plaintext"){
+                      return(
+                          <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>README.md</span>
+                      )
+                    }else{
                     return (
                       <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%" }}>
                         <div style={{ position: 'relative' }}>
@@ -111,6 +118,7 @@ class QuestionComponent extends React.Component{
                         </div>
                       </div>
                     );
+                  }
                   },
                   p({ node, children, ...props }) {
                     return (
