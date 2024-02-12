@@ -28,7 +28,7 @@ function CompletionBar({ data }) {
       svg.append("rect")
         .attr("class", "non-exist")
         .attr("x", function(){
-          var xvalue=(existPercentage-7)>0 ? (existPercentage-7) +"%" : "0%"
+          var xvalue=(existPercentage-10)>0 ? (existPercentage-10) +"%" : "0%"
           return xvalue
         })
         .attr("y", 0)
@@ -36,7 +36,7 @@ function CompletionBar({ data }) {
         .attr("height", "100%") // Set height to 100%
         .attr('rx',10)
         .attr('ry',10)
-        .attr('fill','#FEFEE2')
+        .attr('fill','#939393')
         .append('title').text(`${nonExistPercentage}% is not correct`);
   
       // Append exist bar
@@ -48,7 +48,7 @@ function CompletionBar({ data }) {
         .attr("height", "100%")
         .attr('rx',10)
         .attr('ry',10)
-        .attr('fill',"#008000")
+        .attr('fill',"#20772A")
         .append('title').text(`${existPercentage}% is correct`)
 
     svg.append("text")
