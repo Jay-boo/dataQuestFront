@@ -27,5 +27,16 @@ div #question-container{
     margin: 10px;
     width: 100%;
     color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     /* height: 30%; */
+}
+
+.question-content{
+    display: flex;
+    width: 95%;
+    flex-direction: column;
+    margin: 10px;
 }

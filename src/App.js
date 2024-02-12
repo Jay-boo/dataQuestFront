@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import DashBoard from './pages/DashBoard';
 import QuestPage from './pages/QuestPage';
 import SignUp from './pages/SignUp';
+import NotLoggedIn from './pages/NotLoggedIn';
 
 function App() {
   const sidenavRef=useRef(null);
@@ -39,6 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<DashBoard/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/unauthenticated_error" element={<NotLoggedIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/quest/:id" element={<QuestPage/>} />
       </Routes>

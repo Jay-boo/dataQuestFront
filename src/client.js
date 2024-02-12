@@ -51,18 +51,32 @@ class FastAPIClient {
   }
 
   async getQuest(){
-    return this.apiClient.get("/quest").then(
+    return this.apiClient.get("/user/quests").then(
       ({data})=> {
         console.log("getQuest()",data);
         return data;}
     )
   }
+  async getQuestQuestion(quest_id){
+    return this.apiClient.get(`/user/quest/${quest_id}/question`).then(
+      ({data})=>{
+        return {data,error:null};
+      }
+    ).catch(
+      error =>{
+        if (error.response && error.response.status === 401) {
+          // Handle unauthorized error here
+          console.error("Unauthorized access:", error);
+          return { data: null, error: 401 }; // Returning null data and 401 error
+        } else {
+          // Handle other errors
+          throw error; // Re-throw the error to be caught by the caller
+        }
+      }
 
-  async getCalendar() {
-    return await this.apiClient.get('/calendar').then(({ data }) => {
-      return data;
-    });
+    )
   }
+
 
 
 

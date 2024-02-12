@@ -1,14 +1,15 @@
 
 import {Link} from 'react-router-dom';
 import React from "react";
+import FastAPIClient from '../client';
 
+const client=new FastAPIClient();
 
 class Quest{
-    constructor(id,name,description,step){
+    constructor(id,description,step_number){
         this.id=id;
-        this.name=name;
         this.description=description;
-        this.step=step;
+        this.step_number=step_number;
     }
 }
 
@@ -23,11 +24,18 @@ class DashBoardComponent extends React.Component{
 
 
     componentDidMount(){
+        console.log("Did mount");
+        client.getQuest().then(
+            data=> this.setState({
+                quests:[new Quest(data.id,data.desc,data.step_number)]
+            })
+        );
+
         // console.log("get_quest");
-        this.setState({quests:[
-            new Quest(0,"name 1","Im on ",3),
-            new Quest(1,"name 2","Im on again ",4)
-        ]})
+        // this.setState({quests:[
+        //     new Quest(0,"name 1","Im on ",3),
+        //     new Quest(1,"name 2","Im on again ",4)
+        // ]})
 
     };
 
@@ -39,9 +47,8 @@ class DashBoardComponent extends React.Component{
                             return(
                                     <div class="quest">
                                 <Link to={`/quest/${quest.id}`} key={quest.id}>
-                <h3>{quest.name}</h3>
-                <p>{quest.description}</p>
-                <p>Step: {quest.step}</p>
+                <h3>{quest.description}</h3>
+                <p>Step: {quest.step_number}</p>
             </Link>
                 </div>
                             );
