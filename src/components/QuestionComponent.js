@@ -12,6 +12,8 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Button  } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 class Question{
   constructor(text,step,verify){
@@ -61,7 +63,8 @@ class QuestionComponent extends React.Component{
       question:[],
       isLoggedIn:false,
       isDataLoaded:false,
-      isValidated:null
+      isValidated:null,
+      showValidationDetails:false
     }
   
   }
@@ -82,13 +85,13 @@ class QuestionComponent extends React.Component{
             isDataLoaded:true
           });
         }
-        console.log("data component did mount",data,error);
     }
     )
     .catch(err=>{
       console.log("Error in componentDidMount",err);
     })
-    client.validate().then(
+    client.getValidateInfo().then(
+
       ({data,error})=>{
         if(error==null){
           this.setState({
@@ -100,9 +103,18 @@ class QuestionComponent extends React.Component{
             isDataLoaded:true
           });
         }
+        
         console.log("data validate",data,error);
+        const isVerify=data.some(obj => obj.exist);
+        console.log('Is DATa',data,isVerify);
+        this.setState({showValidationDetails:data.some(el=>el.exist) })
+        
       }
     )
+
+
+
+
   }
 
   handleOnValidate=(e)=>{
@@ -110,9 +122,10 @@ class QuestionComponent extends React.Component{
       client.validate().then(
         ({data,error})=>{
           if(error==null){
-            console.log('no error');
             this.setState({
-              isValidated:data
+              isValidated:data,
+              showValidationDetails:true,
+
             })
           }else if(error==401){
             this.setState({
@@ -120,29 +133,78 @@ class QuestionComponent extends React.Component{
               isDataLoaded:true
             });
           }
-          console.log("data validate",data,error);
+          console.log("data handleOnValidate=> ",data);
+          const isVerify=data.every(obj => obj.exist);
+          console.log('pass next Question',isVerify);
+          if (isVerify){
+
+    client.getQuestQuestion(this.props.value).then(
+
+      ({data,error})=>{
+        if (error==null){
+
+          this.setState({question:[new Question(data.text,data.step_number,data.verify)],
+            isLoggedIn:true,
+            isDataLoaded:true
+          });
+        }else if (error==401){
+
+          this.setState({
+            isLoggedIn:false,
+            isDataLoaded:true
+          });
+        }
+    }
+    )
+    .catch(err=>{
+      console.log("Error in componentDidMount",err);
+    })
+    // client.getValidateInfo().then(
+
+    //   ({data,error})=>{
+    //     if(error==null){
+    //       this.setState({
+    //         isValidated:data
+    //       })
+    //     }else if(error==401){
+    //       this.setState({
+    //         isLoggedIn:false,
+    //         isDataLoaded:true
+    //       });
+    //     }
+        
+    //     console.log("data validate",data,error);
+    //     const isVerify=data.some(obj => obj.exist);
+    //     console.log('Is DATa',data,isVerify);
+    //     this.setState({showValidationDetails:data.some(el=>el.exist) })
+        
+    //   }
+    // )
+
+          }
         }
       )
+    
   }
 
   render(){
-    console.log('render',this.state)
-    const data_to_pass=[
-      {
-        "type": "bucket",
-        "name": "archive_test",
-        "exist": true 
-      },{
-        "type": "cloudrun",
-        "name": "cloudrun_test",
-        "exist": true
-      },{
-        "type": "bucket",
-        "name": "archive_test_bis",
-        "exist": true
-      }
-    ]
-    console.log("data_to_pass",data_to_pass);
+    console.log('render',this.state);
+
+    //   {
+    //     "type": "bucket",
+    //     "name": "archive_test",
+    //     "exist": true 
+    //   },{
+    //     "type": "cloudrun",
+    //     "name": "cloudrun_test",
+    //     "exist": true
+    //   },{
+    //     "type": "bucket",
+    //     "name": "archive_test_bis",
+    //     "exist": true
+    //   }
+    // ]
+    // console.log("data_to_pass",data_to_pass);
     if (!this.state.isDataLoaded){
       return <div>LOADING ..</div>
     }
@@ -172,7 +234,16 @@ class QuestionComponent extends React.Component{
                       return(
                           <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
                       )
-                    }else{
+                    }else if(language=="callout"){
+                      return(
+
+                      <div style={{ backgroundColor:"#AA4A44", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontWeight:"bolder" }}>
+                        <div style={{ position: 'relative' }} dangerouslySetInnerHTML={{ __html: children }}>
+                        </div>
+                      </div>
+                      )
+                    }
+                    else{
                     return (
                       <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%" }}>
                         <div style={{ position: 'relative' }}>
@@ -208,24 +279,32 @@ class QuestionComponent extends React.Component{
               {/* <span>
                 {question.is_validated ? "validated": "not validated"}
               </span> */}
+              
+              
               <div className="validation-container">
+                { this.state.showValidationDetails && (
                 <div className="completionState">
                   <CompletionBar data={this.state.isValidated}/>
+                  <div className="validationSubElement-container">
                   {
                     this.state.isValidated.map( 
                       (element)=>{
                         return(
-                          <div className="validationSubElement">
-                            <p> Problème {element.type} :  <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>
+                          <div className="validationSubElement" style={{backgroundColor:element.exist ? "green":"red"}}>
+                            <p> 
+                              
+                            {element.exist && <CheckCircleIcon/>}
+                            {!element.exist && <CancelIcon/>}
+                              {element.exist ? "Ok": "Problème"} {element.type} :  <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>
                               {element.name}
                             </span> introuvable </p>
-
                           </div>
                         )
                       }
                     )
                   }
-                </div>
+                  </div>
+                </div>)}
                 <ValidateButton variant="contained" endIcon={<SendIcon />}  onClick={(e)=> this.handleOnValidate(e)}>
                         Validate
                 </ValidateButton>

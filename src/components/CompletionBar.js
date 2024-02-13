@@ -23,6 +23,7 @@ function CompletionBar({ data }) {
   
     React.useEffect(() => {
       const svg = d3.select(svgRef.current);
+      svg.selectAll("*").remove();
   
       // Append non-exist bar
       svg.append("rect")
@@ -58,8 +59,6 @@ function CompletionBar({ data }) {
         .attr("dominant-baseline", "middle")
         .attr("fill", "black")
         .text(existPercentage + "%");
-
-
 
 
     svg.selectAll("rect")
