@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import "../styles/completionBar.css"
 
 function CompletionBar({ data }) {
-    console.log('CompletionBar',data);
+    console.log('completion bar entering data',data);
     const svgRef = React.useRef();
     const totalTrue=data.filter(d=>d.exist).length;
     const totalFalse=data.length- totalTrue;
@@ -19,7 +19,7 @@ function CompletionBar({ data }) {
     const minWidthForText = 20; // Minimum width for showing text
     const minHeightForText = 20; // Minimum height for showing text
 
-    console.log(existPercentage);
+    // console.log(existPercentage);
   
     React.useEffect(() => {
       const svg = d3.select(svgRef.current);
@@ -65,7 +65,7 @@ function CompletionBar({ data }) {
     svg.selectAll("rect")
     .on("mouseover",(event,v)=>{
       
-      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#9AB0FC');
+      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#545d68');
     })
   .on("mouseout",(event,v)=>{
       

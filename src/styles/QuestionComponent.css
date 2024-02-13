@@ -40,3 +40,22 @@ div #question-container{
     flex-direction: column;
     margin: 10px;
 }
+
+.validation-container{
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #545d68;
+    border-radius: 10px;
+    color: white;
+}
+
+div .completionState{
+    display: flex;
+    width:100%;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}

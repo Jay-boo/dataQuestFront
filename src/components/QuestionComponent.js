@@ -9,6 +9,9 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { Button  } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import { styled } from '@mui/material/styles';
 
 class Question{
   constructor(text,step,verify){
@@ -18,13 +21,48 @@ class Question{
   }
 }
 
+
+
+const ValidateButton = styled(Button)({
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 12px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#060522',
+  borderColor: '#060522',
+  fontFamily: ['JetBrains Mono','ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','Liberation Mono','Courier New','monospace'
+  ].join(','),
+  '&:hover': {
+    backgroundColor: '#0069d9',
+    borderColor: '#0062cc',
+    boxShadow: 'none',
+  },
+  '&:active': {
+    boxShadow: 'none',
+    backgroundColor: '#0062cc',
+    borderColor: '#005cbf',
+  },
+  '&:focus': {
+    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+  },
+});
+
+
 const client=new FastAPIClient();
 
 
 class QuestionComponent extends React.Component{
+
   constructor(props){
     super(props);
-    this.state={question:[],isLoggedIn:false,isDataLoaded:false}
+    this.state={
+      question:[],
+      isLoggedIn:false,
+      isDataLoaded:false,
+      isValidated:null
+    }
   
   }
   componentDidMount(){
@@ -44,12 +82,47 @@ class QuestionComponent extends React.Component{
             isDataLoaded:true
           });
         }
-        console.log("data compnenet DID mount",data,error);
+        console.log("data component did mount",data,error);
     }
     )
     .catch(err=>{
       console.log("Error in componentDidMount",err);
     })
+    client.validate().then(
+      ({data,error})=>{
+        if(error==null){
+          this.setState({
+            isValidated:data
+          })
+        }else if(error==401){
+          this.setState({
+            isLoggedIn:false,
+            isDataLoaded:true
+          });
+        }
+        console.log("data validate",data,error);
+      }
+    )
+  }
+
+  handleOnValidate=(e)=>{
+      console.log("On validate btn click");
+      client.validate().then(
+        ({data,error})=>{
+          if(error==null){
+            console.log('no error');
+            this.setState({
+              isValidated:data
+            })
+          }else if(error==401){
+            this.setState({
+              isLoggedIn:false,
+              isDataLoaded:true
+            });
+          }
+          console.log("data validate",data,error);
+        }
+      )
   }
 
   render(){
@@ -58,7 +131,7 @@ class QuestionComponent extends React.Component{
       {
         "type": "bucket",
         "name": "archive_test",
-        "exist": false
+        "exist": true 
       },{
         "type": "cloudrun",
         "name": "cloudrun_test",
@@ -69,6 +142,7 @@ class QuestionComponent extends React.Component{
         "exist": true
       }
     ]
+    console.log("data_to_pass",data_to_pass);
     if (!this.state.isDataLoaded){
       return <div>LOADING ..</div>
     }
@@ -92,7 +166,7 @@ class QuestionComponent extends React.Component{
                         .catch((error) => console.error('Could not copy code: ', error));
                     };
                     const language = className ? className.replace('language-', '') : 'plaintext';
-                    console.log("Language :",language);
+                    // console.log("Language :",language);
               
                     if (language=="plaintext"){
                       return(
@@ -131,11 +205,31 @@ class QuestionComponent extends React.Component{
               >
                 {question.text}
               </ReactMarkdown>
-              <br></br>
-              <span>
+              {/* <span>
                 {question.is_validated ? "validated": "not validated"}
-              </span>
-              <CompletionBar data={data_to_pass}/>
+              </span> */}
+              <div className="validation-container">
+                <div className="completionState">
+                  <CompletionBar data={this.state.isValidated}/>
+                  {
+                    this.state.isValidated.map( 
+                      (element)=>{
+                        return(
+                          <div className="validationSubElement">
+                            <p> Problème {element.type} :  <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>
+                              {element.name}
+                            </span> introuvable </p>
+
+                          </div>
+                        )
+                      }
+                    )
+                  }
+                </div>
+                <ValidateButton variant="contained" endIcon={<SendIcon />}  onClick={(e)=> this.handleOnValidate(e)}>
+                        Validate
+                </ValidateButton>
+                </div>
               </div>
               
             </div>
