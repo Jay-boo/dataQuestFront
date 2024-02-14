@@ -24,6 +24,42 @@ div .quest{
     margin: 10px;
     width: 80%;
     color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    
     
 
 }
+.slime-logo{
+  width: 8%;
+  height: 75%;
+  object-fit: contain;
+}
+
+
+
+
+
+.quest-info-container{
+  background-color: #545d68;
+  color: white;
+  width: 92%;
+  height: 100%;;
+  border-radius: 0px 10px 10px 0px;
+  padding-left: 10px;
+  cursor: pointer;
+  
+}
+
+.quest-info-container:hover{
+  /* background-color: #9C9C9C; */
+  padding-left: 12px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+   border: 2px solid #6BB4C1;  
+  
+}
+

@@ -21,8 +21,8 @@ function App() {
       <div ref={sidenavRef} id="mySidenav" class="sidenav">
   <a id="closeBtn" href="#" class="close"onClick={closeNav}>&times;</a>
   <ul>
-    <li><a href="#">Login</a></li>
-    <li><a href="#">Dashboard</a></li>
+    <li><a  onClick={()=>{window.location.href="/login"} } href="#" >Login</a></li>
+    <li><a onClick={()=>{window.location.href="/"} } href="#">Dashboard</a></li>
   </ul>
 </div>
 

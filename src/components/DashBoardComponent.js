@@ -2,6 +2,7 @@
 import {Link} from 'react-router-dom';
 import React from "react";
 import FastAPIClient from '../client';
+import logo from '../resources/slime_logo.png'; // Import the image
 
 const client=new FastAPIClient();
 
@@ -38,6 +39,9 @@ class DashBoardComponent extends React.Component{
         // ]})
 
     };
+  handleClickDiv(href){
+    window.location.href=href
+  }
 
     render(){
         return(
@@ -45,17 +49,18 @@ class DashBoardComponent extends React.Component{
                     {
                         this.state.quests.map((quest)=>{
                             return(
-                                    <div class="quest">
-                                <Link to={`/quest/${quest.id}`} key={quest.id}>
-                <h3>{quest.description}</h3>
-                <p>Step: {quest.step_number}</p>
-            </Link>
-                </div>
+                              <div class="quest">
+                                        <img src={logo} className="slime-logo" alt="Quest icon"></img>
+                                <div className="quest-info-container" onClick={(e)=>{this.handleClickDiv(`/quest/${quest.id}`)}} key={quest.id}>
+                                    <h3>{quest.description}</h3>
+                                    <p>Etape: {quest.step_number}</p>
+                                </div>
+                                
+                              </div>
                             );
 
                         })
                     }
-
                 </div>
         )
     }

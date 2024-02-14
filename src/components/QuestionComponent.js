@@ -69,6 +69,7 @@ class QuestionComponent extends React.Component{
   
   }
   componentDidMount(){
+    console.log("ComponentDidMount QuestionComponent");
     client.getQuestQuestion(this.props.value).then(
 
       ({data,error})=>{
@@ -93,10 +94,15 @@ class QuestionComponent extends React.Component{
     client.getValidateInfo().then(
 
       ({data,error})=>{
+        console.log("getValidateInfo()",data,error)
         if(error==null){
           this.setState({
             isValidated:data
           })
+          console.log("data validate",data,error);
+          const isVerify=data.some(obj => obj.exist);
+          console.log('Is DaTa',data,isVerify);
+          this.setState({showValidationDetails:data.some(el=>el.exist) })
         }else if(error==401){
           this.setState({
             isLoggedIn:false,
@@ -104,16 +110,9 @@ class QuestionComponent extends React.Component{
           });
         }
         
-        console.log("data validate",data,error);
-        const isVerify=data.some(obj => obj.exist);
-        console.log('Is DATa',data,isVerify);
-        this.setState({showValidationDetails:data.some(el=>el.exist) })
         
       }
     )
-
-
-
 
   }
 
@@ -159,27 +158,28 @@ class QuestionComponent extends React.Component{
     .catch(err=>{
       console.log("Error in componentDidMount",err);
     })
-    // client.getValidateInfo().then(
+    client.getValidateInfo().then(
 
-    //   ({data,error})=>{
-    //     if(error==null){
-    //       this.setState({
-    //         isValidated:data
-    //       })
-    //     }else if(error==401){
-    //       this.setState({
-    //         isLoggedIn:false,
-    //         isDataLoaded:true
-    //       });
-    //     }
+      ({data,error})=>{
+        if(error==null){
+          this.setState({
+            isValidated:data,
+            showValidationDetails:false
+          })
+        }else if(error==401){
+          this.setState({
+            isLoggedIn:false,
+            isDataLoaded:true
+          });
+        }
         
-    //     console.log("data validate",data,error);
-    //     const isVerify=data.some(obj => obj.exist);
-    //     console.log('Is DATa',data,isVerify);
-    //     this.setState({showValidationDetails:data.some(el=>el.exist) })
+        console.log("data validate",data,error);
+        const isVerify=data.some(obj => obj.exist);
+        console.log('Is DATa',data,isVerify);
+        this.setState({showValidationDetails:data.some(el=>el.exist) })
         
-    //   }
-    // )
+      }
+    )
 
           }
         }

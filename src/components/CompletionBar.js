@@ -8,7 +8,7 @@ function CompletionBar({ data }) {
     const totalTrue=data.filter(d=>d.exist).length;
     const totalFalse=data.length- totalTrue;
     let existPercentage = (totalTrue / data.length) * 100;
-    existPercentage=existPercentage.toFixed(1)
+    existPercentage=existPercentage.toFixed(0)
     let nonExistPercentage = (totalFalse / data.length) * 100;
     nonExistPercentage=nonExistPercentage.toFixed(1)
 
