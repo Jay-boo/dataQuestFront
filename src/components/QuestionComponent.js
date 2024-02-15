@@ -14,7 +14,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-
+import ToggleList from './toggleList';
 class Question{
   constructor(text,step,verify){
     this.text=text;
@@ -242,8 +242,12 @@ class QuestionComponent extends React.Component{
                         </div>
                       </div>
                       )
-                    }
-                    else{
+                    }else if(language=="hide"){
+                      return(
+                        <ToggleList>{children}</ToggleList>
+
+                      )
+                    }else{
                     return (
                       <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%" }}>
                         <div style={{ position: 'relative' }}>

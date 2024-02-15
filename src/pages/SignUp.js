@@ -60,7 +60,7 @@ class SignUp extends React.Component{
     render(){
         let signupForm=(<div id='signup-form'>
           <StyledTextField fontColor="#060522" id="outlined-basic" label="first name" variant="outlined" 
-          onChange={this.handleInputChange('firstname')}
+          onChange={this.handleInputChange('firstname')}style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -69,7 +69,7 @@ class SignUp extends React.Component{
               ),
             }} />
           <StyledTextField fontColor="#060522" id="outlined-basic" label="last name" variant="outlined" 
-          onChange={this.handleInputChange('lastname')}
+          onChange={this.handleInputChange('lastname')} style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -78,7 +78,7 @@ class SignUp extends React.Component{
               ),
             }} />
           <StyledTextField fontColor="#060522" id="outlined-basic" label="email" variant="outlined" 
-          onChange={this.handleInputChange('email')}
+          onChange={this.handleInputChange('email')} style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -87,7 +87,7 @@ class SignUp extends React.Component{
               ),
             }} />
           <StyledTextField fontColor="#060522" id="outlined-basic" label="Password" variant="outlined" type='password' 
-          onChange={this.handleInputChange('password')}
+          onChange={this.handleInputChange('password')} style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -95,7 +95,7 @@ class SignUp extends React.Component{
                 </InputAdornment>
               ),}}
           />
-            <Button variant="outlined" onClick={(e)=> this.onCreate(e)} > Create </Button> 
+            <Button variant="contained"  style={{margin:"10px"}} onClick={(e)=> this.onCreate(e)} > Create </Button> 
 
 
 

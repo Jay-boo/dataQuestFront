@@ -11,8 +11,7 @@ const QuestPage = () => {
 
   return (
     <div id="quest-container">
-      <h1>Quest Page</h1>
-      <p>Quest ID: {id}</p>
+      <h1>Quest </h1>
       <QuestionComponent value={id}/>
     
     </div>

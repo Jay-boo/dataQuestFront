@@ -8,6 +8,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import styled from '@emotion/styled';
 import { Link,} from 'react-router-dom';
+import { Margin } from '@mui/icons-material';
 
 const jwtDecode = require("jwt-decode");
 const options = {
@@ -113,7 +114,7 @@ class Login extends React.Component{
               ),
             }} />
           <StyledTextField fontColor="#060522" id="outlined-basic" label="Password" variant="outlined" type='password' 
-          onChange={this.handleInputChange('password')}
+          onChange={this.handleInputChange('password')} style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -128,14 +129,14 @@ class Login extends React.Component{
     }else{
       login_form=(
       <div id="login-form"> 
-       Welcome {this.state.userInfo.email} 
-        <Button variant="outlined" onClick={(e)=> this.onLogout(e)} > Log out </Button> 
+       <span>Bienvenue {this.state.userInfo.email} !</span>
+        <Button variant="outlined" onClick={(e)=> this.onLogout(e)}  > Log out </Button> 
       </div>);
     }
 
     return(
       <div id="login-container" >
-        <h2>Login Page</h2>
+        <h2>Login </h2>
           {login_form}
       </div>
     )

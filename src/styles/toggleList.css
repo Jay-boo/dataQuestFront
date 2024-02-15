@@ -1,0 +1,30 @@
+div.toggleSection{
+    background-color:#545d68;
+    padding: 0.3rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+div.toggleSection:hover{
+  padding: 0.5rem;
+}
+
+div.toggleSection.toggled{
+   background-color: #76A975;
+   border: 2px solid black;  
+    /* padding: 0.5rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    
+    font-size: 16px; */
+}
+div .togglingBtn{
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.togglingSpan{
+}

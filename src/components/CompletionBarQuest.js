@@ -1,15 +1,16 @@
+
 import React from "react";
 import * as d3 from 'd3';
 import "../styles/completionBar.css"
 
-function CompletionBar({ data }) {
+function CompletionBarQuest({ data }) {
     console.log('completion bar entering data',data);
     const svgRef = React.useRef();
-    const totalTrue=data.filter(d=>d.exist).length;
-    const totalFalse=data.length- totalTrue;
-    let existPercentage = (totalTrue / data.length) * 100;
+    // const totalTrue=data.filter(d=>d.exist).length;
+    // const totalFalse=data.length- totalTrue;
+    let existPercentage = (data / 30) * 100;
     existPercentage=existPercentage.toFixed(0)
-    let nonExistPercentage = (totalFalse / data.length) * 100;
+    let nonExistPercentage = (data / 30) * 100;
     nonExistPercentage=nonExistPercentage.toFixed(1)
 
 
@@ -38,7 +39,7 @@ function CompletionBar({ data }) {
         .attr('rx',10)
         .attr('ry',10)
         .attr('fill','#939393')
-        .append('title').text(`${nonExistPercentage}% is not correct`);
+        .append('title').text(`${(30-data)}/30 questions non validées`);
   
       // Append exist bar
       svg.append("rect")
@@ -50,7 +51,7 @@ function CompletionBar({ data }) {
         .attr('rx',10)
         .attr('ry',10)
         .attr('fill',"#20772A")
-        .append('title').text(`${existPercentage}% is correct`)
+        .append('title').text(`${data}/30 questions validées`)
 
     svg.append("text")
         .attr("x", existPercentage / 2 + "%")
@@ -80,4 +81,4 @@ function CompletionBar({ data }) {
       </svg>
     );
   }
-  export default CompletionBar;
+  export default CompletionBarQuest;
