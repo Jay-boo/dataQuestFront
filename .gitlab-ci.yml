@@ -1,16 +1,56 @@
-image: node:latest
-stages:
-  - build
-  - test
+variables:
+  TF_VAR_root: ${CI_PROJECT_DIR}/deploy
+  TF_VAR_region: europe-west6
+  TF_VAR_region_low_cost: europe-west1
+  TF_VAR_artifact_repo_name: react-frontend
+  TF_VAR_image_name: react-front-dataquest
+  TF_VAR_service_name: react-front-dataquest-service
+  TF_VAR_api_url: $API_URL 
+  TF_VAR_api_port: $API_PORT 
 
 
-before_script:
-  - npm install
+stages: 
+  # - docker_image
+  - deploy
 
-build:
-  stage: build
+
+# docker_image_dev:
+#   stage: docker_image
+#   image:
+#     name: gcr.io/kaniko-project/executor:v1.14.0-debug
+#     entrypoint: [""]
+#   variables:
+#     GCLOUD_PROJECT_ID: dataquest-dev
+#   before_script:
+#     - cat $GCP_KEY_DEV | base64 -d > gcp_key.json
+#     - export GOOGLE_APPLICATION_CREDENTIALS="gcp_key.json"
+#   script:
+#     - /kaniko/executor
+#       --context "./"
+#       --dockerfile "./Dockerfile"
+#       --destination "europe-west6-docker.pkg.dev/$GCLOUD_PROJECT_ID/$TF_VAR_artifact_repo_name/$TF_VAR_image_name:latest"
+#   only:
+#     - dev
+
+deploy_dev:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+  variables:
+    TF_VAR_project_id: dataquest-dev
+    TF_VAR_environment: dev
+  before_script:
+    - cd ${TF_VAR_root}
+    - cp ./environment/backend_dev.tf ./
+    - cat $GCP_KEY_DEV | base64 -d > /tmp/gcp_key.json
+    - export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp_key.json"
   script:
-    - CI=false npm run build
+    - gitlab-terraform init
+    - gitlab-terraform plan
+    # - gitlab-terraform destroy -target=google_cloud_run_v2_service.service_checker
+    - gitlab-terraform apply -auto-approve
+  only:
+    - dev
+
 
 # test:
 #   stage: test
