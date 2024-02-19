@@ -9,6 +9,6 @@ const config = {
   apiBasePath: `${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}` ,
 
 };
-console.log("config : ",apiBasePath);
+console.log("config : ",config);
 
 export default config;
