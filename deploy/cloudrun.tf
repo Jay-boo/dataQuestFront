@@ -2,7 +2,7 @@
 resource "google_cloud_run_v2_service" "react-frontend" {
   project  = var.project_id
   name     = var.service_name
-  location = var.region_low_cost
+  location = var.region
   ingress = "INGRESS_TRAFFIC_ALL"
 
   template {
