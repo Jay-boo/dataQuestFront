@@ -9,5 +9,6 @@ const config = {
   apiBasePath: `${env.API_URL}:${env.API_PORT}` ,
 
 };
+console.log("config : ",apiBasePath);
 
 export default config;
