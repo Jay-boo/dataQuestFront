@@ -21,7 +21,7 @@ resource "google_storage_bucket_object" "app" {
 }
 resource "google_app_engine_standard_app_version" "latest_version" {
 
-  version_id = var.deployment_version
+  version_id = 1
   service    = "default"
   runtime    = "nodejs20"
 
