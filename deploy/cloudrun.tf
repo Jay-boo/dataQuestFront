@@ -31,11 +31,11 @@ resource "google_cloud_run_v2_service" "react-frontend" {
         container_port = 3000
       }
       env { 
-          name = "API_URL"
+          name = "REACT_APP_API_URL"
           value = var.api_url
       }
       env { 
-          name = "API_PORT"
+          name = "REACT_APP_API_PORT"
           value = var.api_port
       }
     }
