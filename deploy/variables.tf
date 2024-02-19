@@ -4,7 +4,7 @@ variable "project_id" {
 
 variable "region" {
     type = string
-    default="europe-west6"
+    default="europe-west1"
 }
 
 variable "artifact_repo_name"{
@@ -16,5 +16,11 @@ variable "image_name"{
 }
 
 variable "service_name"{
+    type = string
+}
+variable "api_url"{
+    type = string
+}
+variable "api_port"{
     type = string
 }
