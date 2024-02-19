@@ -24,6 +24,7 @@ resource "google_app_engine_standard_app_version" "latest_version" {
   version_id = 1
   service    = "default"
   runtime    = "nodejs20"
+  project= var.project_id
 
   entrypoint {
     shell = "node index.js"
