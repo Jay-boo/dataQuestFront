@@ -2,6 +2,7 @@ resource "google_storage_bucket" "app" {
   name          = "${var.project_id}-${random_id.app.hex}"
   location      = var.region
   force_destroy = true
+  project= var.project_id
 }
 
 resource "random_id" "app" {
@@ -18,6 +19,7 @@ resource "google_storage_bucket_object" "app" {
   name   = "app.zip"
   source = data.archive_file.function_dist.output_path
   bucket = google_storage_bucket.app.name
+  project= var.project_id
 }
 resource "google_app_engine_standard_app_version" "latest_version" {
 
