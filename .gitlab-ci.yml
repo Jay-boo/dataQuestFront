@@ -10,27 +10,27 @@ variables:
 
 
 stages: 
-  # - docker_image
+  - docker_image
   - deploy
 
 
-# docker_image_dev:
-#   stage: docker_image
-#   image:
-#     name: gcr.io/kaniko-project/executor:v1.14.0-debug
-#     entrypoint: [""]
-#   variables:
-#     GCLOUD_PROJECT_ID: dataquest-dev
-#   before_script:
-#     - cat $GCP_KEY_DEV | base64 -d > gcp_key.json
-#     - export GOOGLE_APPLICATION_CREDENTIALS="gcp_key.json"
-#   script:
-#     - /kaniko/executor
-#       --context "./"
-#       --dockerfile "./Dockerfile"
-#       --destination "europe-west6-docker.pkg.dev/$GCLOUD_PROJECT_ID/$TF_VAR_artifact_repo_name/$TF_VAR_image_name:latest"
-#   only:
-#     - dev
+docker_image_dev:
+  stage: docker_image
+  image:
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
+    entrypoint: [""]
+  variables:
+    GCLOUD_PROJECT_ID: dataquest-dev
+  before_script:
+    - cat $GCP_KEY_DEV | base64 -d > gcp_key.json
+    - export GOOGLE_APPLICATION_CREDENTIALS="gcp_key.json"
+  script:
+    - /kaniko/executor
+      --context "./"
+      --dockerfile "./Dockerfile"
+      --destination "europe-west6-docker.pkg.dev/$GCLOUD_PROJECT_ID/$TF_VAR_artifact_repo_name/$TF_VAR_image_name:latest"
+  only:
+    - dev
 
 deploy_dev:
   stage: deploy
