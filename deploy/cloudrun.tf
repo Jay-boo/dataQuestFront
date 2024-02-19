@@ -13,7 +13,7 @@ resource "google_cloud_run_v2_service" "react-frontend" {
       resources {
         limits = {
           cpu    = "1"
-          memory = "1Gio"
+          memory = "1Gi"
         }
         # Determines whether CPU should be throttled or not outside of requests
         cpu_idle = true
