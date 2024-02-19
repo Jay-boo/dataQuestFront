@@ -19,7 +19,6 @@ resource "google_storage_bucket_object" "app" {
   name   = "app.zip"
   source = data.archive_file.function_dist.output_path
   bucket = google_storage_bucket.app.name
-  project= var.project_id
 }
 resource "google_app_engine_standard_app_version" "latest_version" {
 
