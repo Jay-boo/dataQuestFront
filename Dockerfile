@@ -14,6 +14,9 @@ COPY . .
 RUN npm run build
 
 # Expose the port that the app runs on
+# ENV REACT_APP_API_URL https://backend-checker-bo4xf3yfha-ew.a.run.app
+
+# ENV REACT_APP_API_URL http://localhost:80
 EXPOSE 3000
 
 # Command to run the application

@@ -46,7 +46,7 @@ deploy_dev:
   script:
     - gitlab-terraform init
     - gitlab-terraform plan
-    # - gitlab-terraform destroy -target=google_cloud_run_v2_service.service_checker
+    # - gitlab-terraform destroy 
     - gitlab-terraform apply -auto-approve
   only:
     - dev

@@ -85,7 +85,9 @@ class QuestionComponent extends React.Component{
             isLoggedIn:false,
             isDataLoaded:true
           });
+
         }
+        console.log("In getQuestQuestion",data,error);
     }
     )
     .catch(err=>{

@@ -1,4 +1,3 @@
-# Revision resosurce
 resource "google_cloud_run_v2_service" "react-frontend" {
   project  = var.project_id
   name     = var.service_name
@@ -46,4 +45,3 @@ resource "google_cloud_run_service_iam_binding" "default" {
   members = [
     "allUsers"
   ]
-}
