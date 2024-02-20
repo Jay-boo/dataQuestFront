@@ -21,9 +21,6 @@ variable "service_name"{
 variable "api_url"{
     type = string
 }
-variable "api_port"{
-    type = string
-}
 variable "image_version"{
     type = string
     default="latest"

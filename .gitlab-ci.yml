@@ -6,7 +6,6 @@ variables:
   TF_VAR_image_name: react-front-dataquest
   TF_VAR_service_name: react-front-dataquest-service
   TF_VAR_api_url: $API_URL 
-  TF_VAR_api_port: $API_PORT 
 
 
 stages: 
