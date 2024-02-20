@@ -24,3 +24,7 @@ variable "api_url"{
 variable "api_port"{
     type = string
 }
+variable "image_version"{
+    type = string
+    default="latest"
+}

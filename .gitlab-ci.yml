@@ -28,7 +28,7 @@ docker_image_dev:
     - /kaniko/executor
       --context "./"
       --dockerfile "./Dockerfile"
-      --destination "europe-west6-docker.pkg.dev/$GCLOUD_PROJECT_ID/$TF_VAR_artifact_repo_name/$TF_VAR_image_name:latest"
+      --destination "europe-west6-docker.pkg.dev/$GCLOUD_PROJECT_ID/$TF_VAR_artifact_repo_name/$TF_VAR_image_name:${CI_COMMIT_SHORT_SHA}"
   only:
     - dev
 
@@ -38,6 +38,7 @@ deploy_dev:
   variables:
     TF_VAR_project_id: dataquest-dev
     TF_VAR_environment: dev
+    TF_VAR_image_version: "${CI_COMMIT_SHORT_SHA}"
   before_script:
     - cd ${TF_VAR_root}
     - cp ./environment/backend_dev.tf ./

@@ -47,7 +47,7 @@ resource "google_app_engine_standard_app_version" "latest_version" {
     }
   }
 
-  instance_class = "F1"
+  instance_class = "F2"
 
   automatic_scaling {
     max_concurrent_requests = 10

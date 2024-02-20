@@ -8,7 +8,7 @@ resource "google_cloud_run_v2_service" "react-frontend" {
   template {
     service_account = google_service_account.sa-cloudrun-frontend.email
     containers {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.artifact_repo_name}/${var.image_name}:latest"
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.artifact_repo_name}/${var.image_name}:${var.image_version}"
       
       resources {
         limits = {
