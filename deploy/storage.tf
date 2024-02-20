@@ -1,3 +1,8 @@
+resource "google_app_engine_application" "ts-appengine-app" {
+  project     = var.project_id
+  location_id = var.region
+}
+
 resource "google_storage_bucket" "app" {
   name          = "${var.project_id}-${random_id.app.hex}"
   location      = var.region
