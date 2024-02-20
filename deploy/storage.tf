@@ -34,7 +34,7 @@ resource "google_app_engine_standard_app_version" "latest_version" {
   project= var.project_id
 
   entrypoint {
-    shell = "node index.js"
+    shell = " npm start"
   }
 
   deployment {
