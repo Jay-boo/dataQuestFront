@@ -36,6 +36,10 @@ resource "google_app_engine_standard_app_version" "latest_version" {
   entrypoint {
     shell = " npm start"
   }
+  env_variables = {
+    REACT_APP_API_URL = "https://backend-checker-bo4xf3yfha-ew.a.run.app"
+    REACT_APP_API_PORT = "80"
+  }
 
   deployment {
     zip {
