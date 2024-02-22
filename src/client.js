@@ -58,7 +58,7 @@ class FastAPIClient {
     )
   }
   async getQuestQuestion(quest_id){
-    return this.apiClient.get(`/user/quest/${quest_id}/question`).then(
+    return this.apiClient.get(`/user/quest/${quest_id}/question/`).then(
       ({data})=>{
         return {data,error:null};
       }
