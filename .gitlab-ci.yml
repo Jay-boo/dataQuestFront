@@ -46,7 +46,7 @@ deploy_dev:
   script:
     - gitlab-terraform init
     - gitlab-terraform plan
-    # - gitlab-terraform destroy 
+    - gitlab-terraform destroy -target=google_app_engine_standard_app_version.latest_version
     - gitlab-terraform apply -auto-approve
   only:
     - dev
