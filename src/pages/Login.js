@@ -8,7 +8,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import styled from '@emotion/styled';
 import { Link,} from 'react-router-dom';
-import { Margin } from '@mui/icons-material';
+import errorLogo from "./../resources/error_icon.svg";
 
 const jwtDecode = require("jwt-decode");
 const options = {
@@ -33,7 +33,11 @@ class Login extends React.Component{
     this.state={
       loginForm:{'email':'','password':''},
       isLoggedIn:false,
-      userInfo:{}
+      userInfo:{},
+      generalError:null,
+      emailError:false,
+      passwordError:false
+
     }
   }
 
@@ -73,38 +77,62 @@ class Login extends React.Component{
     client.login(this.state.loginForm.email,this.state.loginForm.password).then(
       userInfo=>{
         console.log('User Info on Logging',userInfo);
-        this.setState({isLoggedIn:true,userInfo:userInfo});
+        this.setState({
+          isLoggedIn:true,
+          userInfo:userInfo,
+          emailError:false,
+          passwordError:false
+        
+        });
         window.location.href="/"
       }
-    )
-    // client.login(this.state.loginForm.email,this.state.loginForm.password).then(
-    //   ()=>{
-    //     console.log('get user info');
-    //     return client.get_user_information();
-    //   })
-    //   .then(userInfo => {
-    //     console.log(userInfo);
-    //     this.setState({isLoggedIn:true,userInfo:userInfo});
-    //   })
-    //   .catch(error =>{
-    //     console.error('Error during login',error);
-    //   })
+    ).catch(error=>{
+      console.log('Login Failed',error);
+      // alert('Login failed: '  ); 
+      console.log(error.response.data.detail)
+      let missingField={'password':false,'username':false}
+      error.response.data.detail.map((error,index)=>{
+      
+        console.log(index,error)
+        if (error.msg=="Field required" ){
+          console.log("loc",error.loc[1])
+          if (error.loc[1]=="username"){
+            missingField.username=true
+          }else if(error.loc[1]=="password"){
+            missingField.password=true
+            }
+          let generalErrorMessage=null
+          if (missingField.password && missingField.username){
+            generalErrorMessage="Multiple missing fields"
+
+          }else if(missingField.password){generalErrorMessage="Password field missing"}
+          else if(missingField.username){generalErrorMessage="Email field missing"}
+          this.setState({
+            emailError:missingField.username,
+            passwordError:missingField.password,
+            generalError:generalErrorMessage
+          })
+        }
+        })
+      // this.setState({onLoginErrors:["Hello World"]});
+    })
   }
+
   onLogout=(e)=>{
     console.log('logout()');
     client.logout();
     this.setState({isLoggedIn:false})
-
   }
   
 
   render(){
+    console.log('render state',this.state)
     let login_form=<div id="login-form"></div>;
     if (!this.state.isLoggedIn){
           login_form=(
           <div id="login-form">
 
-          <StyledTextField fontColor="#060522" id="outlined-basic" label="email" variant="outlined" 
+          <StyledTextField error={this.state.emailError} fontColor="#060522" id="outlined-basic" label="email" variant="outlined" 
           onChange={this.handleInputChange('email')}
           InputProps={{
               startAdornment: (
@@ -113,7 +141,7 @@ class Login extends React.Component{
                 </InputAdornment>
               ),
             }} />
-          <StyledTextField fontColor="#060522" id="outlined-basic" label="Password" variant="outlined" type='password' 
+          <StyledTextField  error={this.state.passwordError} fontColor="#060522" id="outlined-basic" label="Password"  variant="outlined" type='password' 
           onChange={this.handleInputChange('password')} style={{margin:"10px"}}
           InputProps={{
               startAdornment: (
@@ -121,9 +149,20 @@ class Login extends React.Component{
                   <KeyIcon></KeyIcon>
                 </InputAdornment>
               ),}}
-          />
+           />
             <Button variant="outlined" onClick={(e)=> this.onLogin(e)} > Submit </Button> 
             or <Link to="/signup">Create Account</Link>
+            {this.state.generalError!=null &&
+  <div id="container-errorLogs">
+
+    <img src={errorLogo} className="App-logo" alt="logo" />
+    <span className='errorMessage'>{this.state.generalError}</span>
+    {/* {this.state.onLoginErrors.map((error, index) => (
+      <span key={index} className='errorMessage'>{error}</span>
+    ))} */}
+  </div>
+}
+            
           </div>);
 
     }else{

@@ -24,3 +24,16 @@ div #login-form{
     display: flex;
     flex-direction: column;
 }
+div #container-errorLogs{
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    width:20%;
+}
+
+.errorMessage{
+    font-style: italic;
+    color: red;
+    font-size: 14px;
+    margin-left: 5%;
+}
