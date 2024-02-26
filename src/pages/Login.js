@@ -14,6 +14,11 @@ const jwtDecode = require("jwt-decode");
 const options = {
   shouldForwardProp: (prop) => prop !== 'fontColor',
 };
+
+
+
+
+
 const StyledTextField = styled(
   TextField,
   options,
@@ -22,8 +27,26 @@ const StyledTextField = styled(
     color: fontColor,
   },
 }));
+
+
+
+
+
+
+
+
 const client=new FastAPIClient();
 
+class ErrorMessage extends React.Component {
+  render() {
+    const { hasError,counter } = this.props;
+    return (
+      <span key={counter} className={`errorMessage ${hasError ? 'error-message' : ''}`}>
+        {this.props.children}
+      </span>
+    );
+  }
+}
 
 
 
@@ -36,7 +59,8 @@ class Login extends React.Component{
       userInfo:{},
       generalError:null,
       emailError:false,
-      passwordError:false
+      passwordError:false,
+      errorCounter: 0 // Trigger new animation
 
     }
   }
@@ -87,33 +111,43 @@ class Login extends React.Component{
         window.location.href="/"
       }
     ).catch(error=>{
-      console.log('Login Failed',error);
+      console.log('Login Failed',error,error.response.status);
+      this.setState((prevState)=>({errorCounter:prevState.errorCounter+1}));
       // alert('Login failed: '  ); 
-      console.log(error.response.data.detail)
-      let missingField={'password':false,'username':false}
-      error.response.data.detail.map((error,index)=>{
-      
-        console.log(index,error)
-        if (error.msg=="Field required" ){
-          console.log("loc",error.loc[1])
-          if (error.loc[1]=="username"){
-            missingField.username=true
-          }else if(error.loc[1]=="password"){
-            missingField.password=true
-            }
-          let generalErrorMessage=null
-          if (missingField.password && missingField.username){
-            generalErrorMessage="Multiple missing fields"
+      if (error.response.status != 404){
+        let missingField={'password':false,'username':false}
+        error.response.data.detail.map((error,index)=>{
+        
+          console.log(index,error)
+          if (error.msg=="Field required" ){
+            console.log("loc",error.loc[1])
+            if (error.loc[1]=="username"){
+              missingField.username=true
+            }else if(error.loc[1]=="password"){
+              missingField.password=true
+              }
+            let generalErrorMessage=null
+            if (missingField.password && missingField.username){
+              generalErrorMessage="Password and email missing"
 
-          }else if(missingField.password){generalErrorMessage="Password field missing"}
-          else if(missingField.username){generalErrorMessage="Email field missing"}
-          this.setState({
-            emailError:missingField.username,
-            passwordError:missingField.password,
-            generalError:generalErrorMessage
+            }else if(missingField.password){generalErrorMessage="Password field missing"}
+            else if(missingField.username){generalErrorMessage="Email field missing"}
+            this.setState({
+              emailError:missingField.username,
+              passwordError:missingField.password,
+              generalError:generalErrorMessage
+            })
+          }
           })
         }
-        })
+      else{
+          // 404 : User not found
+          this.setState({
+            emailError:true,
+            passwordError:true,
+            generalError:error.response.data.detail
+          })
+        }
       // this.setState({onLoginErrors:["Hello World"]});
     })
   }
@@ -127,6 +161,15 @@ class Login extends React.Component{
 
   render(){
     console.log('render state',this.state)
+    let error_message = null;
+    if (this.state.generalError != null) {
+      error_message = (
+        <div id="container-errorLogs">
+          <img src={errorLogo} className="App-logo" alt="logo" />
+          <ErrorMessage key={this.state.errorCounter} hasError={true} className='errorMessage'>{this.state.generalError}</ErrorMessage>
+        </div>
+      );
+    }
     let login_form=<div id="login-form"></div>;
     if (!this.state.isLoggedIn){
           login_form=(
@@ -152,16 +195,7 @@ class Login extends React.Component{
            />
             <Button variant="outlined" onClick={(e)=> this.onLogin(e)} > Submit </Button> 
             or <Link to="/signup">Create Account</Link>
-            {this.state.generalError!=null &&
-  <div id="container-errorLogs">
-
-    <img src={errorLogo} className="App-logo" alt="logo" />
-    <span className='errorMessage'>{this.state.generalError}</span>
-    {/* {this.state.onLoginErrors.map((error, index) => (
-      <span key={index} className='errorMessage'>{error}</span>
-    ))} */}
-  </div>
-}
+            {error_message}
             
           </div>);
 
