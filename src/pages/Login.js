@@ -164,7 +164,7 @@ class Login extends React.Component{
     let error_message = null;
     if (this.state.generalError != null) {
       error_message = (
-        <div id="container-errorLogs">
+        <div id="container-errorLogs-login">
           <img src={errorLogo} className="App-logo" alt="logo" />
           <ErrorMessage key={this.state.errorCounter} hasError={true} className='errorMessage'>{this.state.generalError}</ErrorMessage>
         </div>

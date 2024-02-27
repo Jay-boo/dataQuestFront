@@ -27,6 +27,7 @@ const StyledTextField = styled(
 class ErrorMessage extends React.Component {
   render() {
     const { hasError,counter } = this.props;
+    console.log('render ErrorMessage',hasError,counter);
     return (
       <span key={counter} className={`errorMessage ${hasError ? 'error-message' : ''}`}>
         {this.props.children}
@@ -42,6 +43,7 @@ class SignUp extends React.Component{
         super(props);
         this.state={
             signupForm:{'firstname':'','lastname':'','email':'','password':''},
+            errorCounter:0,
             isCreated:false,
             firstnameError:false,
             lastnameError:false,
@@ -70,6 +72,7 @@ class SignUp extends React.Component{
             } 
         ).catch(error=>{
         console.log("Creation failed",error,error.response.status);
+        this.setState((prevState)=>({errorCounter:prevState.errorCounter+1}));
         if (error.response.status==422){
           // CASE : Missing field
           let missingFields={'firstname':false,'lastname':false,"email":false,"password":false}
@@ -107,7 +110,7 @@ class SignUp extends React.Component{
             passwordError:missingFields.password,
             firstnameError:missingFields.firstname,
             lastnameError:missingFields.lastname,
-            generalError:_error_msg          })
+            generalError:_error_msg })
 
 
         }
@@ -123,7 +126,7 @@ class SignUp extends React.Component{
         let error_message=null;
         if (this.state.generalError != null) {
           error_message = (
-            <div id="container-errorLogs">
+            <div id="container-errorLogs-signup">
               <img src={errorLogo} className="App-logo" alt="logo" />
               <ErrorMessage key={this.state.errorCounter} hasError={true} className='errorMessage'>{this.state.generalError}</ErrorMessage>
             </div>

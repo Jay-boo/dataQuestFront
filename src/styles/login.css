@@ -24,11 +24,13 @@ div #login-form{
     display: flex;
     flex-direction: column;
 }
-div #container-errorLogs{
-    margin-top: 5%;
+div #container-errorLogs-login{
+    margin-top: 3%;
+    margin-bottom: 3%;
     display: flex;
     align-items: center;
-    width:20%;
+    justify-content: center;
+    width:60%;
 }
 
 
@@ -36,6 +38,7 @@ div #container-errorLogs{
 .errorMessage {
   color: red;
   margin-left: 5px;
+  font-size: 14px;
 }
 
 .error-message {
