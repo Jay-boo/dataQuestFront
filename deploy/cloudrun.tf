@@ -52,7 +52,7 @@ resource "google_cloud_run_service_iam_binding" "default" {
 resource "google_firebase_hosting_site" "default" {
   provider = google-beta
   project  = var.project_id
-  site_id  ="dataQuest" 
+  site_id  ="dataquest-datafab" 
 }
 
 
