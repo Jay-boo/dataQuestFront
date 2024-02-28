@@ -79,7 +79,6 @@ resource "google_firebase_hosting_release" "default" {
 
 resource "google_firebase_hosting_custom_domain" "default" {
   provider = google-beta
-
   project  = var.project_id
   site_id  = google_firebase_hosting_site.default.site_id
   custom_domain = "run.custom.domaindataquest.com"
