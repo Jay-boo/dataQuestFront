@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { blue } from "@mui/material/colors";
 
 
 
@@ -53,8 +54,8 @@ class ToggleList extends React.Component{
                       )
         }else{
           return (
-                      <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%" }}>
-                        <div style={{ position: 'relative' }}>
+                      <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontSize:"14px" }}>
+                        <div style={{ position: 'relative',display:'flex'  }}>
                           <IconButton aria-label="content-copy" style={{ position: 'absolute', top: '-4px', right: '5px', color:"white" }} onClick={() => { copyToClipboard(children) }}>
                             <ContentCopyIcon />
                           </IconButton>
@@ -62,7 +63,7 @@ class ToggleList extends React.Component{
                             language={className.replace('language-', '')} // Extract language from className
                             style={darcula}
                             PreTag={(props) => (
-                              <pre id={`code-${Math.random().toString(36).substr(2, 9)}`} {...props} style={{ borderRadius: "10px" }} />
+                              <pre id={`code-${Math.random().toString(36).substr(2, 9)}`} {...props} style={{ borderRadius: "10px", marginTop:"0%" }} />
                             )}
                             {...props}
                           >
@@ -75,7 +76,15 @@ class ToggleList extends React.Component{
 
         }
 
+      },
+      p({node,children,...props}){
+        return (
+        <p style={{marginBottom:"1rem"}} {...props}> 
+            {children}
+        </p>
+        )
       }
+
 
     }
     
