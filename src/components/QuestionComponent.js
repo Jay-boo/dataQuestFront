@@ -15,6 +15,10 @@ import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ToggleList from './toggleList';
+import MarkdownRenderer from './MarkdownRenderer';
+
+
+const client=new FastAPIClient();
 class Question{
   constructor(text,step,verify){
     this.text=text;
@@ -22,8 +26,6 @@ class Question{
     this.verify=verify;
   }
 }
-
-
 
 const ValidateButton = styled(Button)({
   boxShadow: 'none',
@@ -52,7 +54,23 @@ const ValidateButton = styled(Button)({
 });
 
 
-const client=new FastAPIClient();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class QuestionComponent extends React.Component{
@@ -120,6 +138,7 @@ class QuestionComponent extends React.Component{
 
   handleOnValidate=(e)=>{
       console.log("On validate btn click");
+
       client.validate().then(
         ({data,error})=>{
           if(error==null){
@@ -191,22 +210,26 @@ class QuestionComponent extends React.Component{
 
   render(){
     console.log('render',this.state);
+  
+    const markdownString=`
+Some markdown with a 
 
-    //   {
-    //     "type": "bucket",
-    //     "name": "archive_test",
-    //     "exist": true 
-    //   },{
-    //     "type": "cloudrun",
-    //     "name": "cloudrun_test",
-    //     "exist": true
-    //   },{
-    //     "type": "bucket",
-    //     "name": "archive_test_bis",
-    //     "exist": true
-    //   }
-    // ]
-    // console.log("data_to_pass",data_to_pass);
+# Title
+
+## Subtitle
+
+Here is some text
+<!-- hint --> Hidden text .... Everyhtink is secret <!-- /hint -->
+
+print("hrllo")
+
+`;
+   
+    const components = {
+      myTag: ({ children }) => <span style={{ color: 'red' }}>PROUT</span>,
+    };
+
+
     if (!this.state.isDataLoaded){
       return <div>LOADING ..</div>
     }
@@ -221,70 +244,8 @@ class QuestionComponent extends React.Component{
               <div className="question-content">
               
               <h2> Question  n° {question.step+1}</h2>
-              <ReactMarkdown
-                components={{
-                  code({ node, inline, className, children, ...props }) {
-                    const copyToClipboard = (text) => {
-                      console.log("COPY TO CLIPBOARD",text);
-                      navigator.clipboard.writeText(text)
-                        .catch((error) => console.error('Could not copy code: ', error));
-                    };
-                    const language = className ? className.replace('language-', '') : 'plaintext';
-                    // console.log("Language :",language);
-              
-                    if (language=="plaintext"){
-                      return(
-                          <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
-                      )
-                    }else if(language=="callout"){
-                      return(
+                  <MarkdownRenderer content={question.text}/>
 
-                      <div style={{ backgroundColor:"#AA4A44", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontWeight:"bolder" }}>
-                        <div style={{ position: 'relative' }} dangerouslySetInnerHTML={{ __html: children }}>
-                        </div>
-                      </div>
-                      )
-                    }else if(language=="hide"){
-                      return(
-                        <ToggleList>{children}</ToggleList>
-
-                      )
-                    }else{
-                    return (
-                      <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%" }}>
-                        <div style={{ position: 'relative' }}>
-                          <IconButton aria-label="content-copy" style={{ position: 'absolute', top: '-4px', right: '5px', color:"white" }} onClick={() => { copyToClipboard(children) }}>
-                            <ContentCopyIcon />
-                          </IconButton>
-                          <SyntaxHighlighter
-                            language={className.replace('language-', '')} // Extract language from className
-                            style={darcula}
-                            PreTag={(props) => (
-                              <pre id={`code-${Math.random().toString(36).substr(2, 9)}`} {...props} style={{ borderRadius: "10px" }} />
-                            )}
-                            {...props}
-                          >
-                            {String(children).replace(/\n$/, "")}
-                          </SyntaxHighlighter>
-                        </div>
-                      </div>
-                    );
-                  }
-                  },
-                  p({ node, children, ...props }) {
-                    return (
-                      <p style={{ marginBottom: "1rem" }} {...props}>
-                        {children}
-                      </p>
-                    );
-                  },
-                }}
-              >
-                {question.text}
-              </ReactMarkdown>
-              {/* <span>
-                {question.is_validated ? "validated": "not validated"}
-              </span> */}
               
               
               <div className="validation-container">
