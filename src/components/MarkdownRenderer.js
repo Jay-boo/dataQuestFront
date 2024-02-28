@@ -47,6 +47,19 @@ const parseMarkdownContent=(content)=>{
 
 
 const MarkdownRenderer =({content})=>{
+  const subcomponents={
+      code({node,inline,className,children,...props}){
+        const language= className ? className.replace('language-',''):'plaintext';
+        console.log('language',language);
+        if (language=="plaintext"){
+                      return(
+                          <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
+                      )
+        }
+
+      },
+
+  }
     const components={
       code({node,inline,className,children,...props}){
         const language= className ? className.replace('language-',''):'plaintext';
@@ -58,13 +71,16 @@ const MarkdownRenderer =({content})=>{
         }else if(language=="callout"){
           return(
 
-                      <div style={{ backgroundColor:"#C38181", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontWeight:"bolder", fontSize:"16px" }}>
-                        <div style={{ position: 'relative' }} dangerouslySetInnerHTML={{ __html: children }}>
+                      <div style={{ display:'flex',width:"100%",justifyContent:"center"}}>
+                        <div style={{ backgroundColor:"#C38181", padding: "0.5em", overflow: "auto", borderRadius: "10px", width:"90%",fontWeight:"bolder", fontSize:"16px" }}>
+              <ReactMarkdown components={subcomponents}>{children}</ReactMarkdown>
+                          
                         </div>
                       </div>
                       )
         }else{
           return (
+                      <div style={{ display:'flex',width:"100%",justifyContent:"center"}}>
                       <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontSize:"14px" }}>
                         <div style={{ position: 'relative',display:'flex'  }}>
                           <IconButton aria-label="content-copy" style={{ position: 'absolute', top: '-4px', right: '5px', color:"white" }} onClick={() => { copyToClipboard(children) }}>
@@ -81,6 +97,7 @@ const MarkdownRenderer =({content})=>{
                             {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         </div>
+                      </div>
                       </div>
                     );
 
