@@ -57,6 +57,13 @@ class FastAPIClient {
         return data;}
     )
   }
+  async getQuestById(id){
+    return this.apiClient.get(`/quest/${id}`).then(
+      ({data})=> {
+        console.log("getQuestById()",data);
+        return data;}
+    )
+  }
   async getQuestQuestion(quest_id){
     return this.apiClient.get(`/user/quest/${quest_id}/question/`).then(
       ({data})=>{

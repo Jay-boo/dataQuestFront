@@ -225,9 +225,6 @@ print("hrllo")
 
 `;
    
-    const components = {
-      myTag: ({ children }) => <span style={{ color: 'red' }}>PROUT</span>,
-    };
 
 
     if (!this.state.isDataLoaded){
@@ -243,7 +240,6 @@ print("hrllo")
             <div id={question.id} class="question">
               <div className="question-content">
               
-              <h2> Question  n° {question.step+1}</h2>
                   <MarkdownRenderer content={question.text}/>
 
               
