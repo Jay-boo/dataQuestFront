@@ -137,7 +137,7 @@ class FastAPIClient {
 
   get_user_information(){
     return this.apiClient.get('/user/me').then(
-      ({data})=> {return {"email":data.email};}
+      ({data})=> {return {"email":data.email,"firstname":data.firstname,"lastname":data.lastname};}
     )
   }
 
