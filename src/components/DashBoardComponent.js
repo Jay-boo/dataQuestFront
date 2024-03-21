@@ -9,10 +9,11 @@ import CompletionBarQuest from './CompletionBarQuest';
 const client=new FastAPIClient();
 
 class Quest{
-    constructor(id,description,step_number){
+    constructor(id,description,step_number,length){
         this.id=id;
         this.description=description;
         this.step_number=step_number;
+        this.length=length
     }
 }
 
@@ -30,7 +31,7 @@ class DashBoardComponent extends React.Component{
         console.log("Did mount");
         client.getQuest().then(
             data=> this.setState({
-                quests:[new Quest(data.id,data.desc,data.step_number)]
+                quests:[new Quest(data.id,data.desc,data.step_number,data.length)]
             })
         );
 
@@ -51,7 +52,7 @@ class DashBoardComponent extends React.Component{
                                 <div className="quest-info-container" onClick={(e)=>{this.handleClickDiv(`/quest/${quest.id}`)}} key={quest.id}>
                                     <h3>{quest.description}</h3>
                                     <p>Etape: {quest.step_number}</p>
-                                    <CompletionBarQuest data={quest.step_number}/>
+                                    <CompletionBarQuest data={quest.step_number} max={quest.length}/>
                                 </div>
                                 
                               </div>

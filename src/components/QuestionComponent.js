@@ -167,6 +167,10 @@ class QuestionComponent extends React.Component{
             isLoggedIn:true,
             isDataLoaded:true
           });
+          window.scrollTo({
+            top:0,
+            behavior:"smooth"
+          })
         }else if (error==401){
 
           this.setState({
@@ -211,21 +215,6 @@ class QuestionComponent extends React.Component{
   render(){
     console.log('render',this.state);
   
-    const markdownString=`
-Some markdown with a 
-
-# Title
-
-## Subtitle
-
-Here is some text
-<!-- hint --> Hidden text .... Everyhtink is secret <!-- /hint -->
-
-print("hrllo")
-
-`;
-   
-
 
     if (!this.state.isDataLoaded){
       return <div>LOADING ..</div>

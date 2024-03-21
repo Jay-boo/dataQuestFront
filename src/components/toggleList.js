@@ -12,7 +12,7 @@ import { blue } from "@mui/material/colors";
 
 
 const copyToClipboard = (text) => {
-                    console.log("COPY TO CLIPBOARD",text);
+                    // console.log("COPY TO CLIPBOARD",text);
                     navigator.clipboard.writeText(text)
                       .catch((error) => console.error('Could not copy code: ', error));
                   };
@@ -26,7 +26,7 @@ class ToggleList extends React.Component{
   }
 
   handleToggle(){
-    console.log("Toggling");
+    // console.log("Toggling");
     this.setState({toggle:!this.state.toggle})
   }
 
@@ -35,12 +35,12 @@ class ToggleList extends React.Component{
 
 
   render(){
-    console.log("toggle Content",this.props.children);
+    // console.log("toggle Content",this.props.children);
 
   const subcomponents={
       code({node,inline,className,children,...props}){
         const language= className ? className.replace('language-',''):'plaintext';
-        console.log('language',language);
+        // console.log('language',language);
         if (language=="plaintext"){
                       return(
                           <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
@@ -53,7 +53,7 @@ class ToggleList extends React.Component{
     const components={
       code({node,inline,className,children,...props}){
         const language= className ? className.replace('language-',''):'plaintext';
-        console.log('language',language);
+        // console.log('language',language);
         if (language=="plaintext"){
                       return(
                           <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
