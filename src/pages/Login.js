@@ -202,7 +202,7 @@ class Login extends React.Component{
     }else{
       login_form=(
       <div id="login-form"> 
-       <span>Bienvenue {this.state.userInfo.email} !</span>
+       <span>Bienvenue {this.state.userInfo.firstname} {this.state.userInfo.lastname} !</span>
         <Button variant="outlined" onClick={(e)=> this.onLogout(e)}  > Log out </Button> 
       </div>);
     }
