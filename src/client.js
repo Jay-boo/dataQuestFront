@@ -83,6 +83,25 @@ class FastAPIClient {
 
     )
   }
+  async getQuestPreviousQuestion(quest_id){
+    return this.apiClient.get(`/user/quest/${quest_id}/previous/`).then(
+      ({data})=>{
+        return {data,error:null};
+      }
+    ).catch(
+      error =>{
+        if (error.response && error.response.status === 401) {
+          // Handle unauthorized error here
+          console.error("Unauthorized access:", error);
+          return { data: null, error: 401 }; // Returning null data and 401 error
+        } else {
+          // Handle other errors
+          throw error; // Re-throw the error to be caught by the caller
+        }
+      }
+
+    )
+  }
 
   async validate(){
     return this.apiClient.get(`/user/quest/question/verify`).then(
