@@ -163,8 +163,6 @@ const MarkdownRenderer =({content})=>{
               <Callout>{section.text}</Callout>
               ):section.isJump ? (
                 <Jump>{section.text}</Jump>
-
-
               ):(
                   <ReactMarkdown components={components}>{section.text}</ReactMarkdown>
                 )
