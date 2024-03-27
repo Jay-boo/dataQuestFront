@@ -13,8 +13,6 @@ COPY . .
 # Build the React app
 RUN npm run build
 
-# Expose the port that the app runs on
-ENV REACT_APP_API_URL http://localhost:8000
 
 EXPOSE 3000
 
