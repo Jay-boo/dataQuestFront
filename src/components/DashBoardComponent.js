@@ -51,7 +51,7 @@ class DashBoardComponent extends React.Component{
                                         <img src={logo} className="slime-logo" alt="Quest icon"></img>
                                 <div className="quest-info-container" onClick={(e)=>{this.handleClickDiv(`/quest/${quest.id}`)}} key={quest.id}>
                                     <h3>{quest.description}</h3>
-                                    <p>Etape: {quest.step_number}</p>
+                                    <p>Etape: {quest.step_number+1}</p>
                                     <CompletionBarQuest data={quest.step_number} max={quest.length}/>
                                 </div>
                                 

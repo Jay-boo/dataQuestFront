@@ -200,17 +200,55 @@ class QuestionComponent extends React.Component{
         
         console.log("data validate",data,error);
         const isVerify=data.some(obj => obj.exist);
-        console.log('Is DATa',data,isVerify);
+        console.log('Is Data',data,isVerify);
         this.setState({showValidationDetails:data.some(el=>el.exist) })
         
       }
     )
 
+          // Put what append if its verified
+          if (this.state.question[0].step==13){
+            window.alert("Fin de la certification 🎉🎉🎉🎉🎉")
+
+          }
           }
         }
       )
     
   }
+  
+
+
+  // getPrevious(){
+  //   console.log('getPrevious state:',this.state);
+  //   client.getQuestPreviousQuestion(this.props.value).then(
+
+  //     ({data,error})=>{
+  //       if (error==null){
+
+  //         this.setState({question:[new Question(data.text,data.step_number,data.verify)],
+  //         });
+  //       }else if (error==401){
+
+  //         this.setState({
+  //           isLoggedIn:false,
+  //           isDataLoaded:true
+  //         });
+
+  //       }
+  //       console.log("In getPreviousQuestion",data,error);
+  //   }
+  //   )
+  //   .catch(err=>{
+  //     console.log("Error in getPreviousQuestion",err);
+  //   })
+
+
+  // }
+
+  // getNext(){
+
+  // }
 
   render(){
     console.log('render',this.state);
@@ -249,7 +287,7 @@ class QuestionComponent extends React.Component{
                             {!element.exist && <CancelIcon/>}
                               {element.exist ? "Ok": "Problème"} {element.type} :  <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>
                               {element.name}
-                            </span> introuvable </p>
+                            </span> {element.exist ? "déployée":"introuvable"} </p>
                           </div>
                         )
                       }
@@ -263,7 +301,11 @@ class QuestionComponent extends React.Component{
                 </div>
               </div>
               
+
+            {/* <Button variant="contained" onClick={(e)=> this.getPrevious()} > Précedent </Button> 
+            <Button variant="contained" onClick={(e)=> this.getNext()} > Suivant </Button>  */}
             </div>
+            
           )
 
         })}
