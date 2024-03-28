@@ -2,7 +2,7 @@
 import {Link} from 'react-router-dom';
 import React from "react";
 import FastAPIClient from '../client';
-import logo from '../resources/slime_logo.png'; // Import the image
+import logo_bis from '../resources/logo_formation_gcp_devops.png'; // Import the image
 import CompletionBar from './CompletionBar';
 import CompletionBarQuest from './CompletionBarQuest';
 
@@ -48,7 +48,7 @@ class DashBoardComponent extends React.Component{
                         this.state.quests.map((quest)=>{
                             return(
                               <div class="quest">
-                                        <img src={logo} className="slime-logo" alt="Quest icon"></img>
+                                        <img src={logo_bis} className="quest-logo" alt="Quest icon"></img>
                                 <div className="quest-info-container" onClick={(e)=>{this.handleClickDiv(`/quest/${quest.id}`)}} key={quest.id}>
                                     <h3>{quest.description}</h3>
                                     <p>Etape: {quest.step_number+1}</p>

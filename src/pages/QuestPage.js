@@ -23,7 +23,6 @@ const QuestPage = () => {
 
   return (
     <div id="quest-container">
-      <h1>Quest: {questDesc} </h1>
       <QuestionComponent value={id}/>
     
     </div>

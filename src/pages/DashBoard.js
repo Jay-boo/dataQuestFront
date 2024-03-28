@@ -44,7 +44,7 @@ class DashBoard extends React.Component{
         }else{
         return(
             <div id="dashboard-container">
-                <h2>Dashboard</h2>
+                <h2>Formations</h2>
                 <DashBoardComponent/>
             </div>
         )

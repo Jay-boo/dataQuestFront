@@ -1,8 +1,10 @@
 
 div #quest-container{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 17px;
     display:flex;
     width: 100%;
-    height:10000px;
+    height:auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -15,14 +17,13 @@ div #question-container{
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width: 90%;
+    width: 100%;
     height: 100%;
-
-
+    background-color:#EEEEEE;
 }
 
 .question {
-    background-color:#9AB0FC;
+    background-color:#EEEEEE;
     border-radius: 3mm 3mm 3mm 3mm;
     margin: 10px;
     width: 100%;
@@ -49,7 +50,7 @@ div #question-container{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: #545d68;
+    background-color: #31363F;
     border-radius: 10px;
     color: white;
 }
