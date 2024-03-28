@@ -8,7 +8,7 @@ import Callout from "./callout";
 import Jump from "./jump";
 
 const copyToClipboard = (text) => {
-                    console.log("COPY TO CLIPBOARD",text);
+                    // console.log("COPY TO CLIPBOARD",text);
                     navigator.clipboard.writeText(text)
                       .catch((error) => console.error('Could not copy code: ', error));
                   };
@@ -22,8 +22,6 @@ const parseMarkdownContent = (content) => {
   let hintMatch;
   let calloutMatch;
   let jumpMatch;
-  // console.log("BEFORED MATCHE HINT",hintMatch);
-  // console.log("BEFORED MATCHE CALLOUT",calloutMatch);
   while ((hintMatch=hintRegex.exec(content))!==null){
     sections.push({index:hintMatch.index,length:hintMatch[0].length,text:hintMatch[1],isHint:true,isCallout:false,isJump:false})
   }
@@ -97,7 +95,7 @@ const MarkdownRenderer =({content})=>{
       // console.log('language',language);
       if (language=="plaintext"){
                     return(
-                        <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
+                        <span style={{backgroundColor:"rgba(0,0,0,0.08)",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",color:"#C38181",fontFamily: "Reddit Mono" }}>{children}</span>
                     )
       }else if(language=="callout"){
         return(
@@ -112,10 +110,10 @@ const MarkdownRenderer =({content})=>{
       }else{
         return (
                     <div style={{ display:'flex',width:"100%",justifyContent:"center"}}>
-                    <div style={{ backgroundColor:"#060522", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontSize:"14px" }}>
+                    <div style={{ backgroundColor:"rgba(0,0,0,0.78)", padding: "1em", margin: "0.5em 0px", overflow: "auto", borderRadius: "10px", width:"90%",fontSize:"14px" }}>
                       <div style={{ position: 'relative',display:'flex'  }}>
-                        <IconButton aria-label="content-copy" style={{ position: 'absolute', top: '-4px', right: '5px', color:"white" }} onClick={() => { copyToClipboard(children) }}>
-                          <ContentCopyIcon />
+                        <IconButton aria-label="content-copy" style={{ position: 'absolute', top: '-4px', right: '5px', color:"white",fontSize:"13px" }} onClick={() => { copyToClipboard(children) }}>
+                          <ContentCopyIcon /> Copy code
                         </IconButton>
                         <SyntaxHighlighter
                           language={className.replace('language-', '')} // Extract language from className
@@ -141,7 +139,11 @@ const MarkdownRenderer =({content})=>{
           {children}
       </p>
       )
-    }
+    },
+    // a({node,children,...props}){
+      // console.log("---------------------------GETTING a LINK")
+    // },
+    // h1({node,children,...props}){}
     // hr: () => <p style={{ marginBottom: "1rem" }}>Hello World</p>
 
 
@@ -155,7 +157,7 @@ const MarkdownRenderer =({content})=>{
       {
         parsedContent.map(
           (section,index)=>{
-            console.log('section ===>',section);
+            // console.log('section ===>',section);
             return(
               section.isHint ? (
                 <ToggleList>{section.text}</ToggleList>

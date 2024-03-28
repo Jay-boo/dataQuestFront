@@ -19,7 +19,7 @@ div #quests-container{
 }
 
 div .quest{
-    background-color:#9AB0FC;
+    background-color:#76ABAE;
     border-radius: 3mm 3mm 3mm 3mm;
     margin: 10px;
     width: 80%;
@@ -33,7 +33,7 @@ div .quest{
     
 
 }
-.slime-logo{
+.quest-logo{
   width: 8%;
   height: 75%;
   object-fit: contain;
@@ -44,8 +44,8 @@ div .quest{
 
 
 .quest-info-container{
-  background-color: #545d68;
-  color: white;
+  background-color: #31363F;
+  color: #EEEEEE;
   width: 92%;
   height: 100%;;
   border-radius: 0px 10px 10px 0px;
@@ -63,7 +63,7 @@ div .quest{
   padding-right: 2px;
   padding-top: 2px;
   padding-bottom: 2px;
-   border: 2px solid #6BB4C1;  
+   border: 2px solid #76ABAE;  
   
 }
 

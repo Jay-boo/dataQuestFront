@@ -1,0 +1,8 @@
+blockquote{
+    background-color: rgba(237,51,21,.2);
+    padding: 20px 45px 20px 26px;
+    border-left-color: #ed3315;
+    border-left-width: 9px;
+    border-left-style: solid;
+    width: 90%;
+}

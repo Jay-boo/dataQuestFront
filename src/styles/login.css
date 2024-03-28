@@ -16,10 +16,10 @@ div #login-form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3%;
-    background-color: #9AB0FC;
-    border-radius:10px 10px 10px 10px ;
     color:black;
+    margin-top: 3%;
+    background-color: #EEEEEE;
+    border-radius:10px 10px 10px 10px ;
     padding: 1rem;
     display: flex;
     flex-direction: column;

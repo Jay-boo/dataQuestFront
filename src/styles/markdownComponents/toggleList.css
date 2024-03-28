@@ -1,7 +1,11 @@
 div.toggleSection{
-    background-color:#545d68;
+    background-color:rgba(255,229,100,0.3);
+    /* padding: 20px 45px 20px 26px; */
+    border-left-color: #ffe564;
+    border-left-width: 9px;
+    border-left-style: solid;
     padding: 0.3rem;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     display: flex;
     flex-direction: column;
     font-size: 16px;
@@ -11,8 +15,8 @@ div.toggleSection:hover{
 }
 
 div.toggleSection.toggled{
-   background-color: #76A975;
-   border: 2px solid black;  
+   /* background-color: #76A975; */
+   /* border: 2px solid black;   */
     /* padding: 0.5rem;
     border-radius: 10px;
     display: flex;
