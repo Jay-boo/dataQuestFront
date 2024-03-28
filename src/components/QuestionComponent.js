@@ -14,8 +14,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import ToggleList from './toggleList';
-import MarkdownRenderer from './MarkdownRenderer';
+import ToggleList from './markdownRendering/toggleList';
+import MarkdownRenderer from './markdownRendering/MarkdownRenderer';
 
 
 const client=new FastAPIClient();
