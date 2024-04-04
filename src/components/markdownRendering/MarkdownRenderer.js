@@ -8,13 +8,11 @@ import Callout from "./callout";
 import Jump from "./jump";
 
 const copyToClipboard = (text) => {
-                    // console.log("COPY TO CLIPBOARD",text);
                     navigator.clipboard.writeText(text)
                       .catch((error) => console.error('Could not copy code: ', error));
                   };
 
 const parseMarkdownContent = (content) => {
-  console.log("parseMardownContent");
   const hintRegex = /<!-- hint -->(.*?)<!-- \/hint -->/gs;
   const calloutRegex = /<!-- callout -->(.*?)<!-- \/callout -->/gs;
   const jumpRegex = /<!-- jump -->(.*?)<!-- \/jump -->/gs;
@@ -31,9 +29,7 @@ const parseMarkdownContent = (content) => {
   while ((jumpMatch=jumpRegex.exec(content))!==null){
     sections.push({index:jumpMatch.index,length:jumpMatch[0].length,text:jumpMatch[1],isHint:false,isCallout:false,isJump:true })
   }
-  // console.log("SECTION THERE :",sections);
   sections.sort((a,b)=>a.index - b.index);
-  // console.log("SECTION SORTED :",sections);
   let fullSections=[]
   let lastIndex = 0;
   sections.forEach((section,index)=>{
@@ -61,8 +57,6 @@ const parseMarkdownContent = (content) => {
       isJump:false
     })
   }
-  // console.log("Detected Sections",sections);
-  // console.log("Detected Sections in markdown : ",fullSections);
   return fullSections;
 };
 
@@ -80,7 +74,6 @@ const MarkdownRenderer =({content})=>{
   const subcomponents={
       code({node,inline,className,children,...props}){
         const language= className ? className.replace('language-',''):'plaintext';
-        console.log('language',language);
         if (language=="plaintext"){
                       return(
                           <span style={{backgroundColor:"red",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",backgroundColor:"#2e344b",color:"#C38181"}}>{children}</span>
@@ -92,7 +85,6 @@ const MarkdownRenderer =({content})=>{
   const components={
     code({node,inline,className,children,...props}){
       const language= className ? className.replace('language-',''):'plaintext';
-      // console.log('language',language);
       if (language=="plaintext"){
                     return(
                         <span style={{backgroundColor:"rgba(0,0,0,0.08)",justifyContent:"center",paddingLeft:"5px",paddingRight:"5px",paddingTop:"2px",borderRadius:"5px",color:"#C38181",fontFamily: "Reddit Mono" }}>{children}</span>
@@ -141,7 +133,6 @@ const MarkdownRenderer =({content})=>{
       )
     },
     // a({node,children,...props}){
-      // console.log("---------------------------GETTING a LINK")
     // },
     // h1({node,children,...props}){}
     // hr: () => <p style={{ marginBottom: "1rem" }}>Hello World</p>
@@ -149,15 +140,12 @@ const MarkdownRenderer =({content})=>{
 
   }
 
-  // console.log("In MarkdownRenderer",content);
   const parsedContent=parseMarkdownContent(content);
-  // console.log("Parsed sections : ",parsedContent);
   return(
   <div>
       {
         parsedContent.map(
           (section,index)=>{
-            // console.log('section ===>',section);
             return(
               section.isHint ? (
                 <ToggleList>{section.text}</ToggleList>

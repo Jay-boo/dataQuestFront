@@ -9,7 +9,6 @@ class Jump extends React.Component{
   render(){
     const length=parseInt(this.props.children);
     const heightPx = length * 10 + "px";
-    console.log("Jump Component height :",heightPx);
 
     return(
 
