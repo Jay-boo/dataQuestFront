@@ -16,6 +16,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ToggleList from './markdownRendering/toggleList';
 import MarkdownRenderer from './markdownRendering/MarkdownRenderer';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
 const client=new FastAPIClient();
@@ -36,7 +38,7 @@ const ValidateButton = styled(Button)({
   lineHeight: 1.5,
   backgroundColor: '#060522',
   borderColor: '#060522',
-  fontFamily: ['JetBrains Mono','ui-monospace','SFMono-Regular','Menlo','Monaco','Consolas','Liberation Mono','Courier New','monospace'
+  fontFamily: ["Montserrat", "sans-serif"
   ].join(','),
   '&:hover': {
     backgroundColor: '#0069d9',
@@ -79,6 +81,8 @@ class QuestionComponent extends React.Component{
     super(props);
     this.state={
       question:[],
+      questStepNumber:null,
+      currentQuestionStepNumber:null,
       isLoggedIn:false,
       isDataLoaded:false,
       isValidated:null,
@@ -95,6 +99,8 @@ class QuestionComponent extends React.Component{
 
           this.setState({question:[new Question(data.text,data.step_number,data.verify)],
             isLoggedIn:true,
+            questStepNumber:data.step_number,
+            currentQuestionStepNumber:data.step_number,
             isDataLoaded:true
           });
         }else if (error==401){
@@ -105,7 +111,6 @@ class QuestionComponent extends React.Component{
           });
 
         }
-        console.log("In getQuestQuestion",data,error);
     }
     )
     .catch(err=>{
@@ -165,7 +170,9 @@ class QuestionComponent extends React.Component{
 
           this.setState({question:[new Question(data.text,data.step_number,data.verify)],
             isLoggedIn:true,
-            isDataLoaded:true
+            isDataLoaded:true,
+            questStepNumber:data.step_number,
+            currentQuestionStepNumber:data.step_number
           });
           window.scrollTo({
             top:0,
@@ -219,32 +226,31 @@ class QuestionComponent extends React.Component{
   
 
 
-  // getPrevious(){
-  //   console.log('getPrevious state:',this.state);
-  //   client.getQuestPreviousQuestion(this.props.value).then(
+  getOtherQuestion(goPrevious){
+    console.log('getPrevious state:',this.state);
+    client.getQuestOtherQuestion(this.props.value,goPrevious ?(this.state.currentQuestionStepNumber-1):(this.state.currentQuestionStepNumber+1)).then(
 
-  //     ({data,error})=>{
-  //       if (error==null){
+      ({data,error})=>{
+        if (error==null){
 
-  //         this.setState({question:[new Question(data.text,data.step_number,data.verify)],
-  //         });
-  //       }else if (error==401){
+          this.setState({question:[new Question(data.text,data.step_number,data.verify)],
+          currentQuestionStepNumber:data.step_number
+          });
+        }else if (error==401){
 
-  //         this.setState({
-  //           isLoggedIn:false,
-  //           isDataLoaded:true
-  //         });
+          this.setState({
+            isLoggedIn:false,
+            isDataLoaded:true
+          });
 
-  //       }
-  //       console.log("In getPreviousQuestion",data,error);
-  //   }
-  //   )
-  //   .catch(err=>{
-  //     console.log("Error in getPreviousQuestion",err);
-  //   })
-
-
-  // }
+        }
+        console.log("In getPreviousQuestion",data,error);
+    }
+    )
+    .catch(err=>{
+      console.log("Error in getPreviousQuestion",err);
+    })
+  }
 
   // getNext(){
 
@@ -257,6 +263,7 @@ class QuestionComponent extends React.Component{
     if (!this.state.isDataLoaded){
       return <div>LOADING ..</div>
     }
+
 
     if (this.state.isLoggedIn){
     return(
@@ -271,7 +278,7 @@ class QuestionComponent extends React.Component{
 
               
               
-              <div className="validation-container">
+              {this.state.currentQuestionStepNumber==this.state.questStepNumber &&(<div className="validation-container">
                 { this.state.showValidationDetails && (
                 <div className="completionState">
                   <CompletionBar data={this.state.isValidated}/>
@@ -298,12 +305,22 @@ class QuestionComponent extends React.Component{
                 <ValidateButton variant="contained" endIcon={<SendIcon />}  onClick={(e)=> this.handleOnValidate(e)}>
                         Validate
                 </ValidateButton>
-                </div>
+                </div>)}
               </div>
               
 
-            {/* <Button variant="contained" onClick={(e)=> this.getPrevious()} > Précedent </Button> 
-            <Button variant="contained" onClick={(e)=> this.getNext()} > Suivant </Button>  */}
+            <div class="navigation-container">
+            {this.state.currentQuestionStepNumber>0  && (
+              
+              <ValidateButton variant="contained" startIcon={<ArrowBackIcon/>}onClick={(e)=> this.getOtherQuestion(true)} >
+                 Précedent (Q.{this.state.currentQuestionStepNumber} )
+              </ValidateButton> )
+            }
+            {this.state.currentQuestionStepNumber<this.state.questStepNumber &&(
+              <ValidateButton variant="contained" endIcon={<ArrowForwardIcon/>} onClick={(e)=> this.getOtherQuestion(false)} > Suivant (Q.{this.state.currentQuestionStepNumber+2})
+              </ValidateButton>  
+            )}
+            </div>
             </div>
             
           )

@@ -13,17 +13,16 @@ const QuestPage = () => {
   const [questDesc,setQuestDesc]=useState(null);
 
   useEffect(()=>{
-    console.log("Component Mounted in QuestPage");
     client.getQuestById(id).then(
-      data=>{setQuestDesc(data.desc);
-        console.log("dataQuest",data.desc);
+      data=>{
+        setQuestDesc(data.desc);
       }
     ).catch(err=>{console.error('Error fetching quest data: ',err )})
   })
 
   return (
     <div id="quest-container">
-      <QuestionComponent value={id}/>
+      <QuestionComponent value={id} />
     
     </div>
   );

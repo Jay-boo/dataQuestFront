@@ -83,8 +83,8 @@ class FastAPIClient {
 
     )
   }
-  async getQuestPreviousQuestion(quest_id){
-    return this.apiClient.get(`/user/quest/${quest_id}/previous/`).then(
+  async getQuestOtherQuestion(quest_id,step_number){
+    return this.apiClient.get(`/user/quest/${quest_id}/question/${step_number}`).then(
       ({data})=>{
         return {data,error:null};
       }
