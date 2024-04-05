@@ -57,8 +57,34 @@ class FastAPIClient {
         return data;}
     )
   }
+  async getQuestById(id){
+    return this.apiClient.get(`/quest/${id}`).then(
+      ({data})=> {
+        console.log("getQuestById()",data);
+        return data;}
+    )
+  }
   async getQuestQuestion(quest_id){
-    return this.apiClient.get(`/user/quest/${quest_id}/question`).then(
+    return this.apiClient.get(`/user/quest/${quest_id}/question/`).then(
+      ({data})=>{
+        return {data,error:null};
+      }
+    ).catch(
+      error =>{
+        if (error.response && error.response.status === 401) {
+          // Handle unauthorized error here
+          console.error("Unauthorized access:", error);
+          return { data: null, error: 401 }; // Returning null data and 401 error
+        } else {
+          // Handle other errors
+          throw error; // Re-throw the error to be caught by the caller
+        }
+      }
+
+    )
+  }
+  async getQuestOtherQuestion(quest_id,step_number){
+    return this.apiClient.get(`/user/quest/${quest_id}/question/${step_number}`).then(
       ({data})=>{
         return {data,error:null};
       }
@@ -130,7 +156,7 @@ class FastAPIClient {
 
   get_user_information(){
     return this.apiClient.get('/user/me').then(
-      ({data})=> {return {"email":data.email};}
+      ({data})=> {return {"email":data.email,"firstname":data.firstname,"lastname":data.lastname};}
     )
   }
 

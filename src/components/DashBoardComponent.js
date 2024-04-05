@@ -2,17 +2,18 @@
 import {Link} from 'react-router-dom';
 import React from "react";
 import FastAPIClient from '../client';
-import logo from '../resources/slime_logo.png'; // Import the image
+import logo_bis from '../resources/logo_formation_gcp_devops.png'; // Import the image
 import CompletionBar from './CompletionBar';
 import CompletionBarQuest from './CompletionBarQuest';
 
 const client=new FastAPIClient();
 
 class Quest{
-    constructor(id,description,step_number){
+    constructor(id,description,step_number,length){
         this.id=id;
         this.description=description;
         this.step_number=step_number;
+        this.length=length
     }
 }
 
@@ -30,15 +31,10 @@ class DashBoardComponent extends React.Component{
         console.log("Did mount");
         client.getQuest().then(
             data=> this.setState({
-                quests:[new Quest(data.id,data.desc,data.step_number)]
+                quests:[new Quest(data.id,data.desc,data.step_number,data.length)]
             })
         );
 
-        // console.log("get_quest");
-        // this.setState({quests:[
-        //     new Quest(0,"name 1","Im on ",3),
-        //     new Quest(1,"name 2","Im on again ",4)
-        // ]})
 
     };
   handleClickDiv(href){
@@ -52,11 +48,11 @@ class DashBoardComponent extends React.Component{
                         this.state.quests.map((quest)=>{
                             return(
                               <div class="quest">
-                                        <img src={logo} className="slime-logo" alt="Quest icon"></img>
+                                        <img src={logo_bis} className="quest-logo" alt="Quest icon"></img>
                                 <div className="quest-info-container" onClick={(e)=>{this.handleClickDiv(`/quest/${quest.id}`)}} key={quest.id}>
                                     <h3>{quest.description}</h3>
-                                    <p>Etape: {quest.step_number}</p>
-                                    <CompletionBarQuest data={quest.step_number}/>
+                                    <p>Etape: {quest.step_number+1}</p>
+                                    <CompletionBarQuest data={quest.step_number} max={quest.length}/>
                                 </div>
                                 
                               </div>

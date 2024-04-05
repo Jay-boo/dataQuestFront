@@ -64,7 +64,7 @@ function CompletionBar({ data }) {
     svg.selectAll("rect")
     .on("mouseover",(event,v)=>{
       
-      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#545d68');
+      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#31363F');
     })
   .on("mouseout",(event,v)=>{
       

@@ -3,14 +3,14 @@ import React from "react";
 import * as d3 from 'd3';
 import "../styles/completionBar.css"
 
-function CompletionBarQuest({ data }) {
+function CompletionBarQuest({ data ,max}) {
     console.log('completion bar entering data',data);
     const svgRef = React.useRef();
     // const totalTrue=data.filter(d=>d.exist).length;
     // const totalFalse=data.length- totalTrue;
-    let existPercentage = (data / 30) * 100;
+    let existPercentage = (data / max) * 100;
     existPercentage=existPercentage.toFixed(0)
-    let nonExistPercentage = (data / 30) * 100;
+    let nonExistPercentage = (data / max) * 100;
     nonExistPercentage=nonExistPercentage.toFixed(1)
 
 
@@ -39,7 +39,7 @@ function CompletionBarQuest({ data }) {
         .attr('rx',10)
         .attr('ry',10)
         .attr('fill','#939393')
-        .append('title').text(`${(30-data)}/30 questions non validées`);
+        .append('title').text(`${(max-data)}/${max} questions non validées`);
   
       // Append exist bar
       svg.append("rect")
@@ -51,7 +51,7 @@ function CompletionBarQuest({ data }) {
         .attr('rx',10)
         .attr('ry',10)
         .attr('fill',"#20772A")
-        .append('title').text(`${data}/30 questions validées`)
+        .append('title').text(`${data}/${max} questions validées`)
 
     svg.append("text")
         .attr("x", existPercentage / 2 + "%")
@@ -65,7 +65,7 @@ function CompletionBarQuest({ data }) {
     svg.selectAll("rect")
     .on("mouseover",(event,v)=>{
       
-      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#545d68');
+      d3.select(event.currentTarget).attr("stroke-width",4).attr('stroke', '#31363F');
     })
   .on("mouseout",(event,v)=>{
       

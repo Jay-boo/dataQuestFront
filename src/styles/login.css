@@ -16,11 +16,44 @@ div #login-form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3%;
-    background-color: #9AB0FC;
-    border-radius:10px 10px 10px 10px ;
     color:black;
+    margin-top: 3%;
+    background-color: #EEEEEE;
+    border-radius:10px 10px 10px 10px ;
     padding: 1rem;
     display: flex;
     flex-direction: column;
 }
+div #container-errorLogs-login{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:60%;
+}
+
+
+
+.errorMessage {
+  color: red;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.error-message {
+  animation: nod 0.3s ease 1;
+}
+
+@keyframes nod {
+  0% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
